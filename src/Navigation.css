@@ -1,0 +1,21 @@
+.navigation {
+  position: absolute;
+  bottom: -15px; /* Измените на ваше предпочтение */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  z-index: 2;
+}
+.navigation a {
+  text-decoration: none;
+  color: white;
+  font-size: 1em;
+  transition: color 0.3s;
+  color: #fff;
+}
+
+.navigation a:hover {
+  color: #ffcc00; /* Цвет при наведении */
+}

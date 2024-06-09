@@ -1,0 +1,68 @@
+@keyframes clickAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.navigation-container {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.clicker-image:hover {
+  cursor: pointer;
+}
+
+.clicker-image.clicked {
+  animation: clickAnimation 0.3s ease-in-out;
+}
+
+.bebo-clicker {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.bebo-clicker h1 {
+  font-size: 1.5em;
+  margin-bottom: 30px; /* Добавим отступ снизу */
+}
+
+.bebo-clicker p {
+  font-size: 1.5em;
+  margin-bottom: 102px; /* Добавим отступ снизу */
+}
+
+.clicker-image {
+  width: 270px; /* Можно изменить размер по своему усмотрению */
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  filter: brightness(150%);
+}
+
+.clicker-image:active {
+  transform: scale(0.95);
+}
+
+.bebo-clicker {
+  position: relative;
+}
+
+.black-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 110%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 0; /* Поместим темный фон за картинку клика */
+  pointer-events: none; /* Отключим события указателя для фона */
+  border-radius: 25px;
+}

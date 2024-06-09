@@ -1,5 +1,14 @@
+/* eslint-disable-next-line */
+
 .App {
   text-align: center;
+  background-color: #2c2c2c; /* Темно-серый цвет */
+  color: white; /* Сделаем текст белым для контраста */
+  min-height: 100vh; /* Убедимся, что фон покрывает всю высоту экрана */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-logo {
