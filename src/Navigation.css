@@ -1,6 +1,6 @@
 .navigation {
   position: absolute;
-  bottom: -45px; /* Измените на ваше предпочтение */
+  bottom: -75px; /* Измените на ваше предпочтение */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
