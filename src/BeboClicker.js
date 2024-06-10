@@ -15,7 +15,6 @@ function BeboClicker() {
   };
 
   const [coins, setCoins] = useState(() => getSavedValue("coins", 0));
-  const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("coins", JSON.stringify(coins));
@@ -23,11 +22,6 @@ function BeboClicker() {
 
   const handleClick = () => {
     setCoins((prevCoins) => prevCoins + 5);
-    setIsClicked(true);
-
-    setTimeout(() => {
-      setIsClicked(false);
-    }, 300);
   };
 
   return (
@@ -37,7 +31,7 @@ function BeboClicker() {
       <img
         src={clickerImage}
         alt="Clicker"
-        className={isClicked ? "clicker-image clicked" : "clicker-image"}
+        className="clicker-image"
         onClick={handleClick}
       />
       <Navigation
