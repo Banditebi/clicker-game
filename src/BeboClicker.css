@@ -67,19 +67,3 @@
 .navigation a:hover {
   color: #ffcc00;
 }
-
-@media (max-width: 600px) {
-  .bebo-clicker h1,
-  .bebo-clicker p {
-    font-size: 1.2em;
-  }
-
-  .navigation {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .clicker-image {
-    max-width: 200px;
-  }
-}
