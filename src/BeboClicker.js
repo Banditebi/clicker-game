@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./BeboClicker.css"; // Убедись, что путь правильный
-import clickerImage from "./clicker-image.png"; // Импортируем изображение
-import Navigation from "./Navigation"; // Импортируем навигационный блок
-// eslint-disable-next-line
+import "./BeboClicker.css";
+import clickerImage from "./clicker-image.png";
+import Navigation from "./Navigation";
+
 const tg = window.Telegram.WebApp;
 
 function BeboClicker() {
@@ -40,7 +40,6 @@ function BeboClicker() {
         className={isClicked ? "clicker-image clicked" : "clicker-image"}
         onClick={handleClick}
       />
-      <div className="black-overlay"></div>
       <Navigation
         isOpen={isNavOpen}
         toggleNav={() => setIsNavOpen(!isNavOpen)}
@@ -50,4 +49,3 @@ function BeboClicker() {
 }
 
 export default BeboClicker;
-/* eslint-enable */

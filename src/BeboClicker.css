@@ -10,38 +10,29 @@
   }
 }
 
-.navigation-container {
-  margin-top: 100px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.clicker-image:hover {
-  cursor: pointer;
-}
-
-.clicker-image.clicked {
-  animation: clickAnimation 0.3s ease-in-out;
-}
-
 .bebo-clicker {
   text-align: center;
-  margin-top: 60px;
+  margin: 10px auto; /* Обеспечим центрирование и уберем верхний отступ */
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 100%; /* Убедимся, что блок не выходит за пределы экрана */
 }
 
 .bebo-clicker h1 {
   font-size: 1.5em;
-  margin-bottom: 30px; /* Добавим отступ снизу */
+  margin-bottom: 10px;
 }
 
 .bebo-clicker p {
   font-size: 1.5em;
-  margin-bottom: 102px; /* Добавим отступ снизу */
+  margin-bottom: 20px;
 }
 
 .clicker-image {
-  width: 270px; /* Можно изменить размер по своему усмотрению */
+  width: 100%; /* Сделаем изображение адаптивным */
+  max-width: 270px; /* Максимальная ширина изображения */
   cursor: pointer;
   transition: transform 0.1s ease;
   filter: brightness(150%);
@@ -51,18 +42,39 @@
   transform: scale(0.95);
 }
 
-.bebo-clicker {
-  position: relative;
+.navigation {
+  position: relative; /* Поменяем на относительное позиционирование */
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px; /* Добавим отступ сверху */
 }
 
-.black-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 110%;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 0; /* Поместим темный фон за картинку клика */
-  pointer-events: none; /* Отключим события указателя для фона */
-  border-radius: 25px;
+.navigation a {
+  text-decoration: none;
+  color: white;
+  font-size: 1em;
+  transition: color 0.3s;
+  color: #fff;
+}
+
+.navigation a:hover {
+  color: #ffcc00;
+}
+
+/* Медиазапросы для небольших экранов */
+@media (max-width: 600px) {
+  .bebo-clicker h1,
+  .bebo-clicker p {
+    font-size: 1.2em; /* Уменьшим размер шрифта */
+  }
+
+  .navigation {
+    flex-direction: column; /* Поменяем расположение ссылок на вертикальное */
+    gap: 10px; /* Уменьшим промежуток между ссылками */
+  }
+
+  .clicker-image {
+    max-width: 200px; /* Уменьшим максимальную ширину изображения */
+  }
 }

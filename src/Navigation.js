@@ -1,7 +1,7 @@
 import React from "react";
 import "./Navigation.css";
-// eslint-disable-next-line
-function Navigation() {
+
+function Navigation({ isOpen, toggleNav }) {
   return (
     <div className="navigation">
       <a href="#home">BOOST</a>
