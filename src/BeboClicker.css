@@ -37,11 +37,13 @@
 }
 
 .clicker-image {
+  /* Ваши текущие стили */
   width: 100%;
   max-width: 270px;
   cursor: pointer;
   transition: transform 0.1s ease;
   filter: brightness(150%);
+  -webkit-tap-highlight-color: transparent; /* Добавьте это свойство */
 }
 
 .clicker-image:active {
