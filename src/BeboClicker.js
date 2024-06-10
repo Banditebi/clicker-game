@@ -32,7 +32,7 @@ function BeboClicker() {
 
   return (
     <div className="bebo-clicker">
-      <h1>$BEBO TO THE MOON</h1>
+      <h1>$BEBO</h1>
       <p>{coins.toLocaleString()}</p>
       <img
         src={clickerImage}

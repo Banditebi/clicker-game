@@ -22,7 +22,7 @@
   font-size: 1.5em;
   margin: 0;
   position: absolute;
-  top: -50%;
+  top: -30%;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -31,13 +31,12 @@
   font-size: 1.5em;
   margin: 0;
   position: absolute;
-  top: -30%;
+  top: -20%;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .clicker-image {
-  /* Ваши текущие стили */
   width: 100%;
   max-width: 270px;
   cursor: pointer;

@@ -1,6 +1,6 @@
 .navigation {
   position: absolute;
-  bottom: -15px; /* Измените на ваше предпочтение */
+  bottom: -45px; /* Измените на ваше предпочтение */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -8,6 +8,7 @@
   gap: 20px;
   z-index: 2;
 }
+
 .navigation a {
   text-decoration: none;
   color: white;
