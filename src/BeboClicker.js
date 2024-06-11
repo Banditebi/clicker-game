@@ -23,9 +23,6 @@ function BeboClicker() {
     }
     return savedEnergy !== null ? savedEnergy : initialEnergy;
   });
-  const [clickCount, setClickCount] = useState(0);
-  const [showUpgradePage, setShowUpgradePage] = useState(false);
-  const [clickText, setClickText] = useState(null);
 
   useEffect(() => {
     localStorage.setItem("coins", JSON.stringify(coins));
@@ -48,63 +45,37 @@ function BeboClicker() {
 
   const handleClick = (e) => {
     const coinsPerClick = 5;
-    if (clickCount < 5 && energy >= 5) {
+    if (energy >= 5) {
       setCoins((prevCoins) => prevCoins + coinsPerClick);
       setEnergy((prevEnergy) => prevEnergy - 5);
-      setClickCount((prevClickCount) => prevClickCount + 1);
-      const rect = e.target.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      setClickText({ x, y, text: `+${coinsPerClick}` });
-      setTimeout(() => setClickText(null), 500);
+      const x = e.clientX;
+      const y = e.clientY;
+      const clickText = document.createElement("span");
+      clickText.className = "click-text";
+      clickText.innerText = `+${coinsPerClick}`;
+      clickText.style.top = `${y}px`;
+      clickText.style.left = `${x}px`;
+      document.body.appendChild(clickText);
+      setTimeout(() => {
+        document.body.removeChild(clickText);
+      }, 1000); // Устанавливаем таймер на 1 секунду для скрытия текста клика
     }
-  };
-
-  useEffect(() => {
-    const resetClickCount = setTimeout(() => {
-      setClickCount(0);
-    }, 200);
-
-    return () => clearTimeout(resetClickCount);
-  }, [clickCount]);
-
-  const handleUpgradeClick = () => {
-    setShowUpgradePage(true);
-  };
-
-  const handleBackClick = () => {
-    setShowUpgradePage(false);
   };
 
   return (
     <div className="bebo-clicker">
-      {!showUpgradePage ? (
-        <>
-          <h1>$BEBO</h1>
-          <p>{coins.toLocaleString()}</p>
-          <div className="clicker-container" onClick={handleClick}>
-            <img src={clickerImage} alt="Clicker" className="clicker-image" />
-            {clickText && (
-              <span
-                className="click-text"
-                style={{ top: clickText.y, left: clickText.x }}
-              >
-                {clickText.text}
-              </span>
-            )}
-          </div>
-          <p className="energy">
-            {energy}/{initialEnergy}
-          </p>
-          <Navigation
-            isOpen={isNavOpen}
-            toggleNav={() => setIsNavOpen(!isNavOpen)}
-            onUpgradeClick={handleUpgradeClick}
-          />
-        </>
-      ) : (
-        <UpgradePage coins={coins} onBackClick={handleBackClick} />
-      )}
+      <h1>$BEBO</h1>
+      <p>{coins.toLocaleString()}</p>
+      <div className="clicker-container" onClick={handleClick}>
+        <img src={clickerImage} alt="Clicker" className="clicker-image" />
+      </div>
+      <p className="energy">
+        {energy}/{initialEnergy}
+      </p>
+      <Navigation
+        isOpen={isNavOpen}
+        toggleNav={() => setIsNavOpen(!isNavOpen)}
+      />
     </div>
   );
 }
