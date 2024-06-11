@@ -19,7 +19,7 @@ function BeboClicker() {
     if (savedEnergy !== null && lastActive !== null) {
       const now = Date.now();
       const timeElapsed = Math.floor((now - lastActive) / 1000); // время в секундах
-      const energyToAdd = Math.min(initialEnergy, Math.floor(timeElapsed / 1)); // 1 единица энергии за 1 секунду
+      const energyToAdd = Math.min(initialEnergy, Math.floor(timeElapsed)); // 1 единица энергии за 1 секунду
       return Math.min(initialEnergy, savedEnergy + energyToAdd);
     }
     return savedEnergy !== null ? savedEnergy : initialEnergy;
@@ -33,6 +33,7 @@ function BeboClicker() {
 
   useEffect(() => {
     localStorage.setItem("energy", JSON.stringify(energy));
+    localStorage.setItem("lastActive", JSON.stringify(Date.now()));
   }, [energy]);
 
   useEffect(() => {
@@ -74,17 +75,6 @@ function BeboClicker() {
   const handleBackClick = () => {
     setShowUpgradePage(false);
   };
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.setItem("lastActive", JSON.stringify(Date.now()));
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
 
   return (
     <div className="bebo-clicker">
