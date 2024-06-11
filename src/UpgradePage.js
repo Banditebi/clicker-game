@@ -1,3 +1,4 @@
+// UpgradePage.js
 import React from "react";
 import "./UpgradePage.css";
 

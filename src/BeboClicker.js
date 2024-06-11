@@ -5,8 +5,6 @@ import clickerImage from "./clicker-image.png";
 import Navigation from "./Navigation";
 import UpgradePage from "./UpgradePage";
 
-const tg = window.Telegram.WebApp;
-
 function BeboClicker() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [coins, setCoins] = useState(() => {
@@ -19,8 +17,8 @@ function BeboClicker() {
     const lastActive = JSON.parse(localStorage.getItem("lastActive"));
     if (savedEnergy !== null && lastActive !== null) {
       const now = Date.now();
-      const timeElapsed = Math.floor((now - lastActive) / 1000); // время в секундах
-      const energyToAdd = Math.min(initialEnergy, Math.floor(timeElapsed)); // 1 единица энергии за 1 секунду
+      const timeElapsed = Math.floor((now - lastActive) / 1000);
+      const energyToAdd = Math.min(initialEnergy, timeElapsed);
       return Math.min(initialEnergy, savedEnergy + energyToAdd);
     }
     return savedEnergy !== null ? savedEnergy : initialEnergy;
@@ -35,23 +33,17 @@ function BeboClicker() {
 
   useEffect(() => {
     localStorage.setItem("energy", JSON.stringify(energy));
-    localStorage.setItem("lastActive", JSON.stringify(Date.now()));
+    localStorage.setItem("lastActive", Date.now());
   }, [energy]);
 
   useEffect(() => {
     const energyInterval = setInterval(() => {
       if (energy < initialEnergy) {
-        setEnergy((prevEnergy) => prevEnergy + 1);
+        setEnergy((prevEnergy) => Math.min(prevEnergy + 1, initialEnergy));
       }
     }, 1000);
 
     return () => clearInterval(energyInterval);
-  }, [energy, initialEnergy]);
-
-  useEffect(() => {
-    if (energy > initialEnergy) {
-      setEnergy(initialEnergy);
-    }
   }, [energy, initialEnergy]);
 
   const handleClick = (e) => {
@@ -101,7 +93,9 @@ function BeboClicker() {
               </span>
             )}
           </div>
-          <p className="energy">{energy}/500</p>
+          <p className="energy">
+            {energy}/{initialEnergy}
+          </p>
           <Navigation
             isOpen={isNavOpen}
             toggleNav={() => setIsNavOpen(!isNavOpen)}
