@@ -41,14 +41,16 @@ function BeboClicker() {
   return (
     <div className="bebo-clicker">
       <h1>$BEBO</h1>
-      <p>Coins: {coins.toLocaleString()}</p>
+      <p>{coins.toLocaleString()}</p>
       <img
         src={clickerImage}
         alt="Clicker"
         className="clicker-image"
         onClick={() => {
-          setCoins(coins + 5);
-          setEnergy(energy - 5);
+          if (energy >= 5) {
+            setCoins(coins + 5);
+            setEnergy(energy - 5);
+          }
         }}
       />
       <p className="energy">{energy}/500</p>
