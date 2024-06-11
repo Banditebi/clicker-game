@@ -20,7 +20,10 @@ function App() {
         <BeboClicker onUpgradeClick={handleUpgradeClick} />
       )}
       {currentPage === "UpgradePage" && (
-        <UpgradePage onBackClick={handleBackClick} />
+        <UpgradePage
+          onBackClick={handleBackClick}
+          onUpgradeClick={handleUpgradeClick}
+        />
       )}
     </div>
   );

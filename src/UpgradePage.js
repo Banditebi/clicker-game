@@ -1,11 +1,16 @@
 import React from "react";
 import Navigation from "./Navigation";
+import "./UpgradePage.css";
 
-function UpgradePage({ onBackClick }) {
+function UpgradePage({ onBackClick, onUpgradeClick }) {
   return (
     <div className="upgrade-page">
       <h1>Upgrade Page</h1>
-      <Navigation onBackClick={onBackClick} onUpgradeClick={() => {}} />
+      <div className="coins">Coins: 1000</div>
+      <Navigation onUpgradeClick={onUpgradeClick} />
+      <button className="back-button" onClick={onBackClick}>
+        Back
+      </button>
     </div>
   );
 }

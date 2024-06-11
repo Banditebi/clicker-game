@@ -1,4 +1,3 @@
-/* BeboClicker.css */
 @keyframes clickAnimation {
   0% {
     transform: scale(1);
@@ -88,24 +87,27 @@
   transform: scale(0.95);
 }
 
-.navigation {
-  position: relative;
+.bebo-navigation {
+  position: absolute;
+  bottom: -75px; /* Измените на ваше предпочтение */
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   gap: 20px;
-  margin-top: 10px;
+  z-index: 2;
 }
 
-.navigation a {
+.bebo-navigation a {
   text-decoration: none;
   color: white;
-  font-size: 1em;
+  font-size: 1.5em;
   transition: color 0.3s;
   color: #fff;
 }
 
-.navigation a:hover {
-  color: #ffcc00;
+.bebo-navigation a:hover {
+  color: #ffcc00; /* Цвет при наведении */
 }
 
 .clicker-container {
@@ -119,4 +121,35 @@
   color: rgb(255, 255, 255);
   pointer-events: none;
   animation: clickTextAnimation 1s forwards;
+}
+
+.buttons-container {
+  position: absolute;
+  bottom: -50px; /* Отступ от нижнего края */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+}
+
+.buttons-container button {
+  transform: translateY(100%);
+}
+
+.buttons-container button:nth-child(1) {
+  transform: translate(-25%, 100%);
+}
+
+.buttons-container button:nth-child(2) {
+  transform: translate(0, 100%);
+}
+
+.buttons-container button:nth-child(3) {
+  transform: translate(25%, 100%);
+}
+
+.buttons-container button:nth-child(4) {
+  transform: translate(50%, 100%);
 }
