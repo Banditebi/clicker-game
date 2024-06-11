@@ -2,7 +2,13 @@
   0% {
     transform: scale(1);
   }
+  25% {
+    transform: scale(1.01);
+  }
   50% {
+    transform: scale(1);
+  }
+  75% {
     transform: scale(1.01);
   }
   100% {
@@ -25,6 +31,12 @@
   top: -30%;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.energy {
+  margin-top: 410px !important; /* Добавим !important для повышения приоритета */
+  text-align: center; /* Чтобы текст был по центру */
+  font-size: 16px;
 }
 
 .bebo-clicker p {

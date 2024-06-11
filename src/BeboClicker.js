@@ -7,33 +7,51 @@ const tg = window.Telegram.WebApp;
 
 function BeboClicker() {
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const getSavedValue = (key, initialValue) => {
-    const savedValue = JSON.parse(localStorage.getItem(key));
-    if (savedValue !== null) return savedValue;
-    if (initialValue instanceof Function) return initialValue();
-    return initialValue;
-  };
-
-  const [coins, setCoins] = useState(() => getSavedValue("coins", 0));
+  const [coins, setCoins] = useState(() => {
+    const savedCoins = JSON.parse(localStorage.getItem("coins"));
+    return savedCoins !== null ? savedCoins : 0;
+  });
+  const initialEnergy = 500;
+  const [energy, setEnergy] = useState(initialEnergy);
 
   useEffect(() => {
     localStorage.setItem("coins", JSON.stringify(coins));
   }, [coins]);
 
-  const handleClick = () => {
-    setCoins((prevCoins) => prevCoins + 5);
-  };
+  useEffect(() => {
+    localStorage.setItem("energy", JSON.stringify(energy));
+  }, [energy]);
+
+  useEffect(() => {
+    const energyInterval = setInterval(() => {
+      if (energy < initialEnergy) {
+        setEnergy((prevEnergy) => prevEnergy + 1);
+      }
+    }, 1000);
+
+    return () => clearInterval(energyInterval);
+  }, [energy, initialEnergy]);
+
+  useEffect(() => {
+    if (energy > initialEnergy) {
+      setEnergy(initialEnergy);
+    }
+  }, [energy, initialEnergy]);
 
   return (
     <div className="bebo-clicker">
       <h1>$BEBO</h1>
-      <p>{coins.toLocaleString()}</p>
+      <p>Coins: {coins.toLocaleString()}</p>
       <img
         src={clickerImage}
         alt="Clicker"
         className="clicker-image"
-        onClick={handleClick}
+        onClick={() => {
+          setCoins(coins + 5);
+          setEnergy(energy - 5);
+        }}
       />
+      <p className="energy">{energy}/500</p>
       <Navigation
         isOpen={isNavOpen}
         toggleNav={() => setIsNavOpen(!isNavOpen)}
