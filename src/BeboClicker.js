@@ -1,4 +1,3 @@
-// BeboClicker.js
 import React, { useState, useEffect } from "react";
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
@@ -10,6 +9,7 @@ function BeboClicker({ onUpgradeClick }) {
     const savedCoins = JSON.parse(localStorage.getItem("coins"));
     return savedCoins !== null ? savedCoins : 0;
   });
+
   const initialEnergy = 500;
   const [energy, setEnergy] = useState(() => {
     const savedEnergy = JSON.parse(localStorage.getItem("energy"));
@@ -24,13 +24,17 @@ function BeboClicker({ onUpgradeClick }) {
   });
 
   useEffect(() => {
-    localStorage.setItem("coins", JSON.stringify(coins));
-  }, [coins]);
+    const saveData = () => {
+      localStorage.setItem("coins", JSON.stringify(coins));
+      localStorage.setItem("energy", JSON.stringify(energy));
+      localStorage.setItem("lastActive", Date.now());
+    };
 
-  useEffect(() => {
-    localStorage.setItem("energy", JSON.stringify(energy));
-    localStorage.setItem("lastActive", Date.now());
-  }, [energy]);
+    saveData();
+
+    const interval = setInterval(saveData, 5000); // Сохраняем данные каждые 5 секунд
+    return () => clearInterval(interval);
+  }, [coins, energy]);
 
   useEffect(() => {
     const energyInterval = setInterval(() => {
@@ -42,7 +46,7 @@ function BeboClicker({ onUpgradeClick }) {
     return () => clearInterval(energyInterval);
   }, [energy, initialEnergy]);
 
-  const handleClick = (e) => {
+  const handlePointerDown = (e) => {
     const coinsPerClick = 5;
     if (energy >= 5) {
       setCoins((prevCoins) => prevCoins + coinsPerClick);
@@ -65,7 +69,7 @@ function BeboClicker({ onUpgradeClick }) {
     <div className="bebo-clicker">
       <h1>$BEBO</h1>
       <p>{coins.toLocaleString()}</p>
-      <div className="clicker-container" onClick={handleClick}>
+      <div className="clicker-container" onPointerDown={handlePointerDown}>
         <img src={clickerImage} alt="Clicker" className="clicker-image" />
       </div>
       <p className="energy">
@@ -74,7 +78,7 @@ function BeboClicker({ onUpgradeClick }) {
       <Navigation
         isOpen={isNavOpen}
         toggleNav={() => setIsNavOpen(!isNavOpen)}
-        onUpgradeClick={onUpgradeClick} // Передаем проп onUpgradeClick в Navigation
+        onUpgradeClick={onUpgradeClick}
       />
     </div>
   );
