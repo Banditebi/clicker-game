@@ -1,3 +1,4 @@
+// BeboClicker.js
 import React, { useState, useEffect } from "react";
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
@@ -26,6 +27,7 @@ function BeboClicker() {
   });
   const [clickCount, setClickCount] = useState(0);
   const [showUpgradePage, setShowUpgradePage] = useState(false);
+  const [clickText, setClickText] = useState(null);
 
   useEffect(() => {
     localStorage.setItem("coins", JSON.stringify(coins));
@@ -52,11 +54,17 @@ function BeboClicker() {
     }
   }, [energy, initialEnergy]);
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    const coinsPerClick = 5;
     if (clickCount < 5 && energy >= 5) {
-      setCoins((prevCoins) => prevCoins + 5);
+      setCoins((prevCoins) => prevCoins + coinsPerClick);
       setEnergy((prevEnergy) => prevEnergy - 5);
       setClickCount((prevClickCount) => prevClickCount + 1);
+      const rect = e.target.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      setClickText({ x, y, text: `+${coinsPerClick}` });
+      setTimeout(() => setClickText(null), 500);
     }
   };
 
@@ -82,12 +90,17 @@ function BeboClicker() {
         <>
           <h1>$BEBO</h1>
           <p>{coins.toLocaleString()}</p>
-          <img
-            src={clickerImage}
-            alt="Clicker"
-            className="clicker-image"
-            onClick={handleClick}
-          />
+          <div className="clicker-container" onClick={handleClick}>
+            <img src={clickerImage} alt="Clicker" className="clicker-image" />
+            {clickText && (
+              <span
+                className="click-text"
+                style={{ top: clickText.y, left: clickText.x }}
+              >
+                {clickText.text}
+              </span>
+            )}
+          </div>
           <p className="energy">{energy}/500</p>
           <Navigation
             isOpen={isNavOpen}

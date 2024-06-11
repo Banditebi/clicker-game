@@ -1,3 +1,4 @@
+/* BeboClicker.css */
 @keyframes clickAnimation {
   0% {
     transform: scale(1);
@@ -13,6 +14,17 @@
   }
   100% {
     transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
   }
 }
 
@@ -34,8 +46,8 @@
 }
 
 .energy {
-  margin-top: 410px !important; /* Добавим !important для повышения приоритета */
-  text-align: center; /* Чтобы текст был по центру */
+  margin-top: 410px !important;
+  text-align: center;
   font-size: 16px;
 }
 
@@ -54,7 +66,7 @@
   cursor: pointer;
   transition: transform 0.1s ease;
   filter: brightness(150%);
-  -webkit-tap-highlight-color: transparent; /* Добавьте это свойство */
+  -webkit-tap-highlight-color: transparent;
 }
 
 .clicker-image:active {
@@ -79,4 +91,29 @@
 
 .navigation a:hover {
   color: #ffcc00;
+}
+
+.clicker-container {
+  position: relative;
+  display: inline-block;
+}
+
+.click-text {
+  position: absolute;
+  font-size: 24px;
+  color: rgb(255, 255, 255);
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeOut 0.5s ease forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 }
