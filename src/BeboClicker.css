@@ -153,3 +153,46 @@
 .buttons-container button:nth-child(4) {
   transform: translate(50%, 100%);
 }
+
+.upgrading .clicker-container,
+.upgrading .energy {
+  display: none;
+}
+
+.upgrade-section {
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.upgrade-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  position: relative;
+}
+
+.upgrlevel {
+  position: relative;
+  top: -50px; /* Измененное значение верхнего отступа */
+  margin-left: 150px; /* Измененное значение левого отступа */
+}
+
+.upgradecost {
+  position: relative;
+  margin-top: 170px;
+  top: -150px; /* Задайте верхний отступ */
+  left: 0; /* Задайте правый отступ */
+}
+
+.upgradeclickbutton {
+  position: absolute;
+  margin-top: 40px;
+  left: -50px;
+  font-size: 1.5em;
+}

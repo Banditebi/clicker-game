@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
 
@@ -21,23 +21,37 @@ function BeboClicker({ onUpgradeClick }) {
     return savedEnergy !== null ? savedEnergy : initialEnergy;
   });
 
+  const [isUpgrading, setIsUpgrading] = useState(false);
+  const [upgradeLevel, setUpgradeLevel] = useState(() => {
+    const savedLevel = JSON.parse(localStorage.getItem("upgradeLevel"));
+    return savedLevel !== null ? savedLevel : 1;
+  });
+  const [upgradeCost, setUpgradeCost] = useState(() => {
+    const savedCost = JSON.parse(localStorage.getItem("upgradeCost"));
+    return savedCost !== null ? savedCost : 500;
+  });
+
+  const clickPositionRef = useRef({ x: 0, y: 0 });
+
   useEffect(() => {
     const saveData = () => {
       localStorage.setItem("coins", JSON.stringify(coins));
       localStorage.setItem("energy", JSON.stringify(energy));
       localStorage.setItem("lastActive", Date.now());
+      localStorage.setItem("upgradeLevel", JSON.stringify(upgradeLevel));
+      localStorage.setItem("upgradeCost", JSON.stringify(upgradeCost));
     };
 
     saveData();
 
     const interval = setInterval(saveData, 5000); // Save data every 5 seconds
     return () => clearInterval(interval);
-  }, [coins, energy]);
+  }, [coins, energy, upgradeLevel, upgradeCost]);
 
   useEffect(() => {
     const energyInterval = setInterval(() => {
       if (energy < initialEnergy) {
-        setEnergy((prevEnergy) => Math.min(prevEnergy + 1, initialEnergy));
+        setEnergy((prevEnergy) => Math.min(prevEnergy + 100, initialEnergy));
       }
     }, 1000);
 
@@ -45,12 +59,14 @@ function BeboClicker({ onUpgradeClick }) {
   }, [energy, initialEnergy]);
 
   const handlePointerDown = (e) => {
-    const coinsPerClick = 5;
-    if (energy >= 5) {
+    const coinsPerClick = 5 * upgradeLevel;
+    if (energy >= coinsPerClick) {
       setCoins((prevCoins) => prevCoins + coinsPerClick);
-      setEnergy((prevEnergy) => prevEnergy - 5);
-      const x = e.clientX;
-      const y = e.clientY;
+      setEnergy((prevEnergy) => prevEnergy - coinsPerClick);
+      clickPositionRef.current.x = e.clientX;
+      clickPositionRef.current.y = e.clientY;
+      const x = clickPositionRef.current.x;
+      const y = clickPositionRef.current.y;
       const clickText = document.createElement("span");
       clickText.className = "click-text";
       clickText.innerText = `+${coinsPerClick}`;
@@ -59,7 +75,7 @@ function BeboClicker({ onUpgradeClick }) {
       document.body.appendChild(clickText);
       setTimeout(() => {
         document.body.removeChild(clickText);
-      }, 1000); // Set a timer to remove the click text after 1 second
+      }, 1000); // Remove click text after 1 second
     }
   };
 
@@ -72,6 +88,7 @@ function BeboClicker({ onUpgradeClick }) {
   };
 
   const handleUpgradeClick = () => {
+    setIsUpgrading((prevState) => !prevState); // Toggle isUpgrading state
     onUpgradeClick();
   };
 
@@ -79,16 +96,41 @@ function BeboClicker({ onUpgradeClick }) {
     // Implement referral functionality
   };
 
+  const handleClickUpgrade = () => {
+    if (coins >= upgradeCost) {
+      setCoins((prevCoins) => prevCoins - upgradeCost);
+      setUpgradeLevel((prevLevel) => prevLevel + 1);
+      setUpgradeCost((prevCost) => prevCost + 500);
+    }
+  };
+
   return (
-    <div className="bebo-clicker">
+    <div className={`bebo-clicker ${isUpgrading ? "upgrading" : ""}`}>
       <h1>$BEBO</h1>
       <p>{coins.toLocaleString()}</p>
-      <div className="clicker-container" onPointerDown={handlePointerDown}>
-        <img src={clickerImage} alt="Clicker" className="clicker-image" />
-      </div>
-      <p className="energy">
-        {energy}/{initialEnergy}
-      </p>
+      {!isUpgrading && (
+        <>
+          <div className="clicker-container" onPointerDown={handlePointerDown}>
+            <img src={clickerImage} alt="Clicker" className="clicker-image" />
+          </div>
+          <p className="energy">
+            {energy}/{initialEnergy}
+          </p>
+        </>
+      )}
+      {isUpgrading && (
+        <div className="upgrade-info">
+          <p className="upgrlevel">LVL:{upgradeLevel}</p>
+
+          <div className="upgradecost">
+            <p>PRICE:{upgradeCost}</p>
+          </div>
+
+          <button className="upgradeclickbutton" onClick={handleClickUpgrade}>
+            Upgrade
+          </button>
+        </div>
+      )}
       <div className="buttons-container">
         <button className="boost-button" onClick={handleBoostClick}>
           Boost
