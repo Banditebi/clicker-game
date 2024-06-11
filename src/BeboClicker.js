@@ -3,9 +3,8 @@ import React, { useState, useEffect } from "react";
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
 import Navigation from "./Navigation";
-import UpgradePage from "./UpgradePage";
 
-function BeboClicker() {
+function BeboClicker({ onUpgradeClick }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [coins, setCoins] = useState(() => {
     const savedCoins = JSON.parse(localStorage.getItem("coins"));
@@ -75,6 +74,7 @@ function BeboClicker() {
       <Navigation
         isOpen={isNavOpen}
         toggleNav={() => setIsNavOpen(!isNavOpen)}
+        onUpgradeClick={onUpgradeClick} // Передаем проп onUpgradeClick в Navigation
       />
     </div>
   );

@@ -1,13 +1,28 @@
-import React from "react";
+// App.js
+import React, { useState } from "react";
 import BeboClicker from "./BeboClicker";
+import UpgradePage from "./UpgradePage";
 import "./App.css";
 
-const tg = window.Telegram.WebApp;
-
 function App() {
+  const [currentPage, setCurrentPage] = useState("BeboClicker");
+
+  const handleUpgradeClick = () => {
+    setCurrentPage("UpgradePage");
+  };
+
+  const handleBackClick = () => {
+    setCurrentPage("BeboClicker");
+  };
+
   return (
     <div className="App">
-      <BeboClicker />
+      {currentPage === "BeboClicker" && (
+        <BeboClicker onUpgradeClick={handleUpgradeClick} />
+      )}
+      {currentPage === "UpgradePage" && (
+        <UpgradePage onBackClick={handleBackClick} />
+      )}
     </div>
   );
 }
