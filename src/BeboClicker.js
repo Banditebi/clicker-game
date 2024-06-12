@@ -170,9 +170,9 @@ function BeboClicker({ onUpgradeClick }) {
       {isUpgrading && (
         <div className="upgrade-info">
           <div className="click-upgrade-section">
-            <p className="Clickupgrlevel">{upgradeLevel}</p>
+            <p className="Clickupgrlevel"></p>
             <div className="Clickupgradecost">
-              <p>{upgradeCost}</p>
+              <p></p>
             </div>
             <button
               className="Clickupgradeclickbutton"
@@ -182,9 +182,9 @@ function BeboClicker({ onUpgradeClick }) {
             </button>
           </div>
           <div className="energy-upgrade-section">
-            <p className="Energyupgrlevel">{energyUpgradeLevel}</p>
+            <p className="Energyupgrlevel"></p>
             <div className="Energyupgradecost">
-              <p>{energyUpgradeCost}</p>
+              <p></p>
             </div>
             <button
               className="Energyupgradeclickbutton"
