@@ -154,7 +154,6 @@ function BeboClicker({ onUpgradeClick }) {
 
   return (
     <div className={`bebo-clicker ${isUpgrading ? "upgrading" : ""}`}>
-      <h1>$BEBO</h1>
       <p>{coins.toLocaleString()}</p>
       {!isUpgrading && (
         <>
@@ -199,6 +198,7 @@ function BeboClicker({ onUpgradeClick }) {
           </div>
         </div>
       )}
+      <hr className="linianavbara"></hr>
       <div className="buttons-container">
         <img
           src={boostImage}
