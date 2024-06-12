@@ -154,18 +154,18 @@ function BeboClicker({ onUpgradeClick }) {
 
   return (
     <div className={`bebo-clicker ${isUpgrading ? "upgrading" : ""}`}>
-      <p>{coins.toLocaleString()}</p>
+      <div className="coins-container">
+        <p className="coins-count">{coins.toLocaleString()}</p>
+      </div>
       {!isUpgrading && (
         <>
-          <div className="coins-container">
-            <div
-              className="clicker-container"
-              onPointerDown={handlePointerDown}
-            >
-              <img src={clickerImage} alt="Clicker" className="clicker-image" />
-            </div>
-            <p className="energyp">
-              {energy}/{maxEnergy}
+          <div className="clicker-container" onPointerDown={handlePointerDown}>
+            <img src={clickerImage} alt="Clicker" className="clicker-image" />
+          </div>
+          <div className="energy-container">
+            <p className="energy-text">
+              {energy}/{maxEnergy}{" "}
+              <img src={upgradeImage} alt="Upgrade" className="upgradeimgpng" />
             </p>
           </div>
         </>
@@ -198,7 +198,7 @@ function BeboClicker({ onUpgradeClick }) {
           </div>
         </div>
       )}
-      <hr className="linianavbara"></hr>
+      <hr className="linianavbara" />
       <div className="buttons-container">
         <img
           src={boostImage}

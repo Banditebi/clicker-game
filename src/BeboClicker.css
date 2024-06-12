@@ -1,3 +1,4 @@
+/* Добавляем анимации */
 @keyframes clickAnimation {
   0% {
     transform: scale(1);
@@ -41,10 +42,57 @@
     transform: translateY(-40px);
   }
 }
-.energyp {
+
+/* Стили для предотвращения выделения и синего фона */
+* {
+  user-select: none; /* Запрещает выделение текста */
+}
+
+img,
+button {
+  outline: none; /* Убирает обводку при фокусировке */
+}
+
+.clicker-container,
+.boost-button,
+.missions-button,
+.upgrade-button,
+.referral-button {
+  outline: none; /* Убирает обводку при фокусировке */
+  user-select: none; /* Запрещает выделение текста */
+}
+
+.clicker-container:active,
+.boost-button:active,
+.missions-button:active,
+.upgrade-button:active,
+.referral-button:active {
+  outline: none; /* Убирает обводку при активном состоянии */
+}
+
+.upgradeimgpng {
+  position: absolute; /* Абсолютное позиционирование относительно окна просмотра */
+  top: 15px; /* Положение сверху */
+  left: 370; /* Положение слева */
+  width: 30px;
+  height: 30px;
+  z-index: 999; /* Устанавливаем порядок слоев */
+}
+
+.energy-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: absolute;
+  bottom: -420px;
+  left: 45%;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+
+.energy-text {
   margin: 0;
-  margin-bottom: -380px;
-  position: fixed;
+  margin-left: 10px; /* Отступ слева от изображения */
 }
 
 .bebo-clicker {
@@ -76,15 +124,15 @@
   height: 2px;
   background-color: #fffdfd; /* Установите нужный цвет */
   position: fixed;
-  bottom: 100px; /* или любое другое значение, которое вы предпочитаете */
+  bottom: 90px; /* или любое другое значение, которое вы предпочитаете */
   left: 50%;
   transform: translateX(-50%);
   z-index: 998; /* Устанавливаем z-index, чтобы линия была под кнопками */
 }
 
 .bebo-clicker p {
-  position: fixed;
-  bottom: 500px; /* или любое другое значение, которое вы предпочитаете */
+  position: absolute;
+  bottom: 350px; /* или любое другое значение, которое вы предпочитаете */
   left: 50%;
   transform: translateX(-50%);
   font-size: 2.5em;
@@ -97,7 +145,7 @@
   cursor: pointer;
   transition: transform 0.1s ease;
   filter: brightness(150%);
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent; /* Убирает синий фон на мобильных устройствах */
 }
 
 .clicker-image:active {
@@ -142,7 +190,7 @@
 
 .buttons-container {
   position: fixed;
-  bottom: 90px; /* или любое другое значение, которое вы предпочитаете */
+  bottom: 80px; /* или любое другое значение, которое вы предпочитаете */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
