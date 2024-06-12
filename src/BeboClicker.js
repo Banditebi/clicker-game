@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
-import boostImage from "./boost-image.png";
-import missionsImage from "./missions-image.png";
-import upgradeImage from "./upgrade-image.png";
-import referralImage from "./referral-image.png"; // Импортируйте свои изображения
 
 function BeboClicker({ onUpgradeClick }) {
   const [coins, setCoins] = useState(() => {
@@ -154,77 +151,19 @@ function BeboClicker({ onUpgradeClick }) {
 
   return (
     <div className={`bebo-clicker ${isUpgrading ? "upgrading" : ""}`}>
-      <div className="coins-container">
-        <p className="coins-count">{coins.toLocaleString()}</p>
-      </div>
-      {!isUpgrading && (
-        <>
-          <div className="clicker-container" onPointerDown={handlePointerDown}>
-            <img src={clickerImage} alt="Clicker" className="clicker-image" />
-          </div>
-          <div className="energy-container">
-            <p className="energy-text">
-              {energy}/{maxEnergy}{" "}
-              <img src={upgradeImage} alt="Upgrade" className="upgradeimgpng" />
-            </p>
-          </div>
-        </>
-      )}
-      {isUpgrading && (
-        <div className="upgrade-info">
-          <div className="click-upgrade-section">
-            <p className="Clickupgrlevel"></p>
-            <div className="Clickupgradecost">
-              <p></p>
-            </div>
-            <button
-              className="Clickupgradeclickbutton"
-              onClick={handleClickUpgrade}
-            >
-              Upgrade Clicks
-            </button>
-          </div>
-          <div className="energy-upgrade-section">
-            <p className="Energyupgrlevel"></p>
-            <div className="Energyupgradecost">
-              <p></p>
-            </div>
-            <button
-              className="Energyupgradeclickbutton"
-              onClick={handleEnergyUpgradeClick}
-            >
-              Upgrade Energy
-            </button>
-          </div>
-        </div>
-      )}
-      <hr className="linianavbara" />
-      <div className="buttons-container">
-        <img
-          src={boostImage}
-          alt="Boost"
-          className="boost-button"
-          onClick={handleBoostClick}
-        />
-        <img
-          src={missionsImage}
-          alt="Missions"
-          className="missions-button"
-          onClick={handleMissionsClick}
-        />
-        <img
-          src={upgradeImage}
-          alt="Upgrade"
-          className="upgrade-button"
-          onClick={handleUpgradeClick}
-        />
-        <img
-          src={referralImage}
-          alt="Referral"
-          className="referral-button"
-          onClick={handleReferralClick}
-        />
-      </div>
+      {/* Отображаем изображение для клика и размещаем его посередине */}
+      <img
+        src={clickerImage}
+        alt="Clicker"
+        className="clicker-image"
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+        onPointerDown={handlePointerDown}
+      />
     </div>
   );
 }

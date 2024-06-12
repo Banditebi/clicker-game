@@ -2,7 +2,7 @@
 
 .App {
   text-align: center;
-  background-color: #000000; /* Темно-серый цвет */
+
   color: white; /* Сделаем текст белым для контраста */
   min-height: 100vh; /* Убедимся, что фон покрывает всю высоту экрана */
   display: flex;

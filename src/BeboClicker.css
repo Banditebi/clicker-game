@@ -1,285 +1,173 @@
-/* Добавляем анимации */
-@keyframes clickAnimation {
-  0% {
-    transform: scale(1);
+/* Desktop viewports */
+
+@media only screen and (min-aspect-ratio: 1 / 1) and (max-aspect-ratio: 4 / 3) {
+  @media (min-width: 2000px) {
+    .clicker-image {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px; /* Ширина изображения */
+      height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
+    }
   }
-  25% {
-    transform: scale(1.01);
+
+  @media (max-width: 2000px) {
+    .clicker-image {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px; /* Ширина изображения */
+      height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
+    }
   }
-  50% {
-    transform: scale(1);
-  }
-  75% {
-    transform: scale(1.01);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
+  @media (max-width: 1680px) {
+    .clicker-image {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px; /* Ширина изображения */
+      height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
+    }
   }
-  to {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-}
 
-@keyframes clickTextAnimation {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
+  @media (max-width: 1200px) {
+    .clicker-image {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px; /* Ширина изображения */
+      height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
+    }
   }
-  50% {
-    opacity: 1;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-40px);
+
+  @media (max-width: 1000px) {
+    .clicker-image {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px; /* Ширина изображения */
+      height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
+    }
   }
 }
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #1f1f1f; /* Установите нужный цвет фона */
-  overflow: hidden; /* Скрыть содержимое, выходящее за пределы страницы */
+
+@media only screen and (min-aspect-ratio: 4 / 3) and (max-aspect-ratio: 8 / 5) {
+  @media (min-width: 2000px) {
+  }
+
+  @media (max-width: 2000px) {
+  }
+
+  @media (max-width: 1680px) {
+  }
+
+  @media (max-width: 1200px) {
+  }
+
+  @media (max-width: 1000px) {
+  }
 }
 
-/* Стили для предотвращения выделения и синего фона */
-* {
-  user-select: none; /* Запрещает выделение текста */
+@media only screen and (min-aspect-ratio: 8 / 5) and (max-aspect-ratio: 16 / 9) {
+  @media (min-width: 2000px) {
+  }
+
+  @media (max-width: 2000px) {
+  }
+
+  @media (max-width: 1680px) {
+  }
+
+  @media (max-width: 1200px) {
+  }
+
+  @media (max-width: 1000px) {
+  }
 }
 
-img,
-button {
-  outline: none; /* Убирает обводку при фокусировке */
+@media only screen and (min-aspect-ratio: 16 / 9) and (max-aspect-ratio: 21 / 9) {
+  @media (min-width: 2000px) {
+  }
+
+  @media (max-width: 2000px) {
+  }
+
+  @media (max-width: 1680px) {
+  }
+
+  @media (max-width: 1200px) {
+  }
+
+  @media (max-width: 1000px) {
+  }
 }
 
-.clicker-container,
-.boost-button,
-.missions-button,
-.upgrade-button,
-.referral-button {
-  outline: none; /* Убирает обводку при фокусировке */
-  user-select: none; /* Запрещает выделение текста */
+/* Mobile viewports */
+
+/* Devices: Not found in any modern mainstream device but still useful */
+@media only screen and (aspect-ratio: 9 / 16) {
+  .clicker-image {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px; /* Ширина изображения */
+    height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
+  }
 }
 
-.clicker-container:active,
-.boost-button:active,
-.missions-button:active,
-.upgrade-button:active,
-.referral-button:active {
-  outline: none; /* Убирает обводку при активном состоянии */
+/* Devices: iPhone 5/SE, Kindle Fire */
+@media only screen and (min-aspect-ratio: 9 / 16) and (max-aspect-ratio: 4 / 5) {
+  .clicker-image {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px; /* Ширина изображения */
+    height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
+  }
 }
 
-.upgradeimgpng {
-  position: absolute; /* Абсолютное позиционирование относительно окна просмотра */
-  top: 15px; /* Положение сверху */
-  left: 370; /* Положение слева */
-  width: 30px;
-  height: 30px;
-  z-index: 999; /* Устанавливаем порядок слоев */
+/* Devices: iPhone, Samsung, Pixel */
+@media only screen and (min-aspect-ratio: 9 / 19.5) and (max-aspect-ratio: 9 / 16) {
+  .clicker-image {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px; /* Ширина изображения */
+    height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
+  }
 }
 
-.energy-container {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  position: absolute;
-  bottom: -420px;
-  left: 45%;
-  transform: translateX(-50%);
-  z-index: 999;
+/* Devices: Samsung */
+@media only screen and (min-aspect-ratio: 9 / 21) and (max-aspect-ratio: 9 / 19.5) {
+  .clicker-image {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 550px; /* Ширина изображения */
+    height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
+  }
 }
 
-.energy-text {
-  margin: 0;
-  margin-left: 10px; /* Отступ слева от изображения */
-}
+/* Tablet viewports */
 
-.bebo-clicker {
-  position: relative;
-  text-align: center;
-  padding: 50px;
-  border-radius: 10px;
-  max-width: 100%;
-}
-
-.p-coin {
-  font-size: 1.5em;
-  margin: 0;
-  position: absolute;
-  top: -70px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.energy {
-  margin-top: 410px !important;
-  text-align: center;
-  font-size: 16px;
-}
-
-.linianavbara {
-  width: 100%;
-  border: none;
-  height: 2px;
-  background-color: #fffdfd; /* Установите нужный цвет */
-  position: absolute;
-  bottom: -95px; /* или любое другое значение, которое вы предпочитаете */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 998; /* Устанавливаем z-index, чтобы линия была под кнопками */
-}
-
-.bebo-clicker p {
-  position: absolute;
-  bottom: 350px; /* или любое другое значение, которое вы предпочитаете */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 2.5em;
-  z-index: 999; /* Устанавливаем z-index, чтобы элемент был поверх других */
-}
-
-.clicker-image {
-  width: 100%;
-  max-width: 270px;
-  cursor: pointer;
-  transition: transform 0.1s ease;
-  filter: brightness(150%);
-  -webkit-tap-highlight-color: transparent; /* Убирает синий фон на мобильных устройствах */
-}
-
-.clicker-image:active {
-  transform: scale(0.95);
-}
-
-.bebo-navigation {
-  position: absolute;
-  bottom: -75px; /* Измените на ваше предпочтение */
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  z-index: 2;
-}
-
-.bebo-navigation a {
-  text-decoration: none;
-  color: white;
-  font-size: 1.5em;
-  transition: color 0.3s;
-  color: #fff;
-}
-
-.bebo-navigation a:hover {
-  color: #ffcc00; /* Цвет при наведении */
-}
-
-.clicker-container {
-  position: relative;
-  display: inline-block;
-}
-
-.click-text {
-  position: absolute;
-  font-size: 24px;
-  color: rgb(255, 255, 255);
-  pointer-events: none;
-  animation: clickTextAnimation 1s forwards;
-}
-
-.buttons-container {
-  position: absolute;
-  bottom: -105px; /* или любое другое значение, которое вы предпочитаете */
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 28px;
-  z-index: 999; /* Устанавливаем z-index, чтобы кнопки были поверх других элементов */
-}
-
-.buttons-container button {
-  transform: translateY(100%);
-}
-
-.buttons-container button:nth-child(1) {
-  transform: translate(-25%, 100%);
-}
-
-.buttons-container button:nth-child(2) {
-  transform: translate(0, 100%);
-}
-
-.buttons-container button:nth-child(3) {
-  transform: translate(25%, 100%);
-}
-
-.buttons-container button:nth-child(4) {
-  transform: translate(50%, 100%);
-}
-
-.upgrading .clicker-container,
-.upgrading .energy {
-  display: none;
-}
-
-.boost-button,
-.missions-button,
-.upgrade-button,
-.referral-button {
-  width: 60px; /* Установите нужный размер */
-  height: 60px;
-  cursor: pointer;
-  transition: transform 0.1s ease;
-  margin-bottom: -50px;
-}
-
-.boost-button:active,
-.missions-button:active,
-.upgrade-button:active,
-.referral-button:active {
-  transform: scale(0.95);
-}
-
-.click-upgrade-section {
-  position: relative;
-  margin: 0;
-}
-
-.upgrade-info {
-  position: relative;
-  margin: 0;
-}
-
-.Clickupgrlevel {
-  position: relative;
-  margin: 0;
-}
-
-.Clickupgradecost {
-  position: relative;
-  margin: 0;
-}
-
-.Clickupgradeclickbutton {
-  position: relative;
-  margin: 0;
-  margin-left: -10%;
-  font-size: 1em; /* Используйте относительный размер шрифта */
-}
-
-.Energyupgradeclickbutton {
-  position: relative;
-  margin: 0;
-  margin-left: -10%;
-  font-size: 1em; /* Используйте относительный размер шрифта */
-  margin-top: 0; /* Используйте относительные значения для отступов */
+/* Devices: iPad */
+@media only screen and (min-aspect-ratio: 16 / 24) and (max-aspect-ratio: 3 / 4) {
+  .clicker-image {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px; /* Ширина изображения */
+    height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
+  }
 }
