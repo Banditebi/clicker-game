@@ -188,11 +188,12 @@
 
   .clicker-image {
     position: absolute;
-    top: 100px;
-    left: 0%;
-    width: 300px; /* Ширина изображения */
+    margin-top: -20px; /* Поднимаем изображение на 70px выше */
+    left: 50%; /* Центрируем по горизонтали */
+    transform: translateX(-50%); /* Центрируем по горизонтали */
+    width: 280px; /* Ширина изображения */
     height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
-    z-index: 1;
+    z-index: 1; /* Позиция над другими элементами */
   }
   .coins-display {
     position: absolute;
@@ -208,6 +209,61 @@
     border-radius: 5px;
     z-index: 1; /* Устанавливаем z-index, чтобы блок с монетами был выше фона */
   }
+
+  .energy-display {
+    position: fixed;
+    bottom: 90px; /* Расположение снизу от нижних кнопок */
+    left: 50%; /* Выравнивание по центру */
+    transform: translateX(-50%); /* Центрирование по горизонтали */
+    font-size: 24px; /* Размер шрифта */
+    color: white; /* Цвет текста белый */
+    z-index: 3; /* Позиция над другими элементами */
+  }
+
+  .divider {
+    width: 100vw; /* Ширина равна ширине viewport (всего экрана) */
+    border: none;
+    border-top: 1px solid white; /* Параметры границы */
+    position: fixed; /* Фиксированное позиционирование */
+    bottom: 70px; /* Расположение снизу от нижних кнопок */
+    left: 0; /* Выравнивание по левому краю */
+    z-index: 2; /* Позиция над другими элементами */
+  }
+  .divider2 {
+    width: 30vw; /* Ширина равна ширине viewport (всего экрана) */
+    right: 60px;
+    background-color: white; /* Цвет линии */
+    position: fixed; /* Фиксированное позиционирование */
+    bottom: 70px; /* Расположение снизу от нижних кнопок */
+    left: 0; /* Выравнивание по левому краю */
+    z-index: 2; /* Позиция над другими элементами */
+    transform: rotate(90deg); /* Наклон линии на 45 градусов */
+    transform-origin: left; /* Опорная точка для наклона - левый край */
+  }
+  .divider3 {
+    width: 30vw; /* Ширина равна ширине viewport (всего экрана) */
+    right: 0px;
+    background-color: white; /* Цвет линии */
+    position: fixed; /* Фиксированное позиционирование */
+    bottom: 70px; /* Расположение снизу от нижних кнопок */
+    left: 105px; /* Выравнивание по левому краю */
+    z-index: 2; /* Позиция над другими элементами */
+    transform: rotate(90deg); /* Наклон линии на 45 градусов */
+    transform-origin: left; /* Опорная точка для наклона - левый край */
+  }
+
+  .divider4 {
+    width: 30vw; /* Ширина равна ширине viewport (всего экрана) */
+    right: 0px;
+    background-color: white; /* Цвет линии */
+    position: fixed; /* Фиксированное позиционирование */
+    bottom: 70px; /* Расположение снизу от нижних кнопок */
+    left: 245px; /* Выравнивание по левому краю */
+    z-index: 2; /* Позиция над другими элементами */
+    transform: rotate(90deg); /* Наклон линии на 45 градусов */
+    transform-origin: left; /* Опорная точка для наклона - левый край */
+  }
+
   .bottom-buttons {
     position: fixed;
     bottom: 10px;
@@ -222,7 +278,7 @@
     cursor: pointer;
     width: 60px;
     height: 60px;
-    border-radius: 50%;
+    border-radius: 10px; /* Изменено с 50% на 10px для создания квадрата */
     overflow: visible;
     transition: transform 0.2s ease-in-out;
     z-index: 1;
@@ -231,6 +287,7 @@
   .button:hover {
     transform: scale(1.1);
   }
+
   .boost-button {
     background-image: url("./boost-image.png");
   }
@@ -246,6 +303,7 @@
   .upgrade-button {
     background-image: url("./upgrade-image.png");
   }
+
   .button img {
     width: 100%;
     height: 100%;

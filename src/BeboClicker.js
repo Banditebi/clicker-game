@@ -162,6 +162,11 @@ function BeboClicker({ onUpgradeClick }) {
       {/* Отображаем количество монет с разделителями тысяч */}
       <div className="coins-display">{formatNumberWithCommas(coins)}</div>
 
+      {/* Отображаем текущую энергию */}
+      <div className="energy-display">
+        {energy} / {maxEnergy}
+      </div>
+
       {/* Отображаем изображение для клика и размещаем его посередине */}
       <img
         src={clickerImage}
@@ -175,19 +180,21 @@ function BeboClicker({ onUpgradeClick }) {
         }}
         onPointerDown={handlePointerDown}
       />
-
-      {/* Кнопки внизу экрана */}
+      <hr className="divider" />
+      <hr className="divider2" />
+      <hr className="divider3" />
+      <hr className="divider4" />
       <div className="bottom-buttons">
-        <div className="button" onClick={handleBoostClick}>
+        <div className="button boost-button" onClick={handleBoostClick}>
           <img src={boostImage} alt="Boost" />
         </div>
-        <div className="button" onClick={handleMissionsClick}>
+        <div className="button missions-button" onClick={handleMissionsClick}>
           <img src={missionsImage} alt="Missions" />
         </div>
-        <div className="button" onClick={handleReferralClick}>
+        <div className="button referral-button" onClick={handleReferralClick}>
           <img src={referralImage} alt="Referral" />
         </div>
-        <div className="button" onClick={handleUpgradeClick}>
+        <div className="button upgrade-button" onClick={handleUpgradeClick}>
           <img src={upgradeImage} alt="Upgrade" />
         </div>
       </div>
