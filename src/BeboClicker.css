@@ -59,7 +59,7 @@
   font-size: 1em; /* Используйте относительный размер шрифта */
   margin: 0;
   position: absolute;
-  top: -20%; /* Используйте относительные значения для отступов */
+  top: -110%; /* Используйте относительные значения для отступов */
   left: 50%;
   transform: translateX(-50%);
 }
@@ -145,7 +145,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 10px;
+  gap: 0px;
   z-index: 999; /* Устанавливаем z-index, чтобы кнопки были поверх других элементов */
 }
 
@@ -178,9 +178,9 @@
 .missions-button,
 .upgrade-button,
 .referral-button {
-  margin: 5px;
-  padding: 10px 15px;
-  font-size: 13px;
+  margin: 0px;
+  padding: 15px 15px;
+  font-size: 10px;
   position: relative;
 }
 
