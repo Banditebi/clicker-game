@@ -187,6 +187,7 @@ function BeboClicker({ onUpgradeClick }) {
       <div className="bottom-buttons">
         <div className="button boost-button" onClick={handleBoostClick}>
           <img src={boostImage} alt="Boost" />
+          <hr className="divider2" />
         </div>
         <div className="button missions-button" onClick={handleMissionsClick}>
           <img src={missionsImage} alt="Missions" />
