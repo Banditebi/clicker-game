@@ -181,22 +181,19 @@ function BeboClicker({ onUpgradeClick }) {
         onPointerDown={handlePointerDown}
       />
       <hr className="divider" />
-      <hr className="divider2" />
-      <hr className="divider3" />
-      <hr className="divider4" />
+
       <div className="bottom-buttons">
         <div className="button boost-button" onClick={handleBoostClick}>
           <img src={boostImage} alt="Boost" />
-          <hr className="divider2" />
+          <p className="boosttextbtn">Boost</p>
         </div>
         <div className="button missions-button" onClick={handleMissionsClick}>
           <img src={missionsImage} alt="Missions" />
+          <p className="missiontextbtn">Tasks</p>
         </div>
         <div className="button referral-button" onClick={handleReferralClick}>
           <img src={referralImage} alt="Referral" />
-        </div>
-        <div className="button upgrade-button" onClick={handleUpgradeClick}>
-          <img src={upgradeImage} alt="Upgrade" />
+          <p className="referaltextbtn">Mates</p>
         </div>
       </div>
     </div>

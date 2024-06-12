@@ -229,37 +229,6 @@
     left: 0; /* Выравнивание по левому краю */
     z-index: 2; /* Позиция над другими элементами */
   }
-  .divider2 {
-    width: 30vw; /* Ширина равна ширине viewport (всего экрана) */
-    left: 80px;
-    background-color: white; /* Цвет линии */
-    position: fixed; /* Фиксированное позиционирование */
-    bottom: 70px; /* Расположение снизу от нижних кнопок */
-    z-index: 2; /* Позиция над другими элементами */
-    transform: rotate(90deg); /* Наклон линии на 45 градусов */
-    transform-origin: left; /* Опорная точка для наклона - левый край */
-  }
-  .divider3 {
-    width: 30vw; /* Ширина равна ширине viewport (всего экрана) */
-    background-color: white; /* Цвет линии */
-    position: fixed; /* Фиксированное позиционирование */
-    bottom: 70px; /* Расположение снизу от нижних кнопок */
-    left: 160px;
-    z-index: 2; /* Позиция над другими элементами */
-    transform: rotate(90deg); /* Наклон линии на 45 градусов */
-    transform-origin: left; /* Опорная точка для наклона - левый край */
-  }
-
-  .divider4 {
-    width: 30vw; /* Ширина равна ширине viewport (всего экрана) */
-    background-color: white; /* Цвет линии */
-    position: fixed; /* Фиксированное позиционирование */
-    bottom: 70px; /* Расположение снизу от нижних кнопок */
-    left: 240px; /* Выравнивание по левому краю */
-    z-index: 2; /* Позиция над другими элементами */
-    transform: rotate(90deg); /* Наклон линии на 45 градусов */
-    transform-origin: left; /* Опорная точка для наклона - левый край */
-  }
 
   .bottom-buttons {
     position: fixed;
@@ -289,16 +258,42 @@
     background-image: url("./boost-image.png");
   }
 
+  .boosttextbtn {
+    color: white;
+    right: 0px;
+    position: relative;
+    font-size: 0.9em;
+    z-index: 1;
+    bottom: 27px;
+    text-align: center;
+  }
+
   .missions-button {
     background-image: url("./missions-image.png");
+  }
+
+  .missiontextbtn {
+    color: white;
+    right: 0px;
+    position: relative;
+    font-size: 0.9em;
+    z-index: 1;
+    bottom: 27px;
+    text-align: center;
   }
 
   .referral-button {
     background-image: url("./referral-image.png");
   }
 
-  .upgrade-button {
-    background-image: url("./upgrade-image.png");
+  .referaltextbtn {
+    color: white;
+    right: 0px;
+    position: relative;
+    font-size: 0.9em;
+    z-index: 1;
+    bottom: 27px;
+    text-align: center;
   }
 
   .button img {
