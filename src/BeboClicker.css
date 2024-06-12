@@ -41,6 +41,11 @@
     transform: translateY(-40px);
   }
 }
+.energyp {
+  margin: 0;
+  margin-bottom: -380px;
+  position: fixed;
+}
 
 .bebo-clicker {
   position: relative;
@@ -51,10 +56,19 @@
 }
 
 .bebo-clicker h1 {
+  font-size: 1em; /* Используйте относительный размер шрифта */
+  margin: 0;
+  position: absolute;
+  top: -20%; /* Используйте относительные значения для отступов */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.p-coin {
   font-size: 1.5em;
   margin: 0;
   position: absolute;
-  top: -30%;
+  top: -70px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -66,12 +80,12 @@
 }
 
 .bebo-clicker p {
-  font-size: 2.5em;
-  margin: 0;
-  position: absolute;
-  top: -15%;
+  position: fixed;
+  bottom: 500px; /* или любое другое значение, которое вы предпочитаете */
   left: 50%;
   transform: translateX(-50%);
+  font-size: 2.5em;
+  z-index: 999; /* Устанавливаем z-index, чтобы элемент был поверх других */
 }
 
 .clicker-image {
@@ -124,14 +138,15 @@
 }
 
 .buttons-container {
-  position: absolute;
-  bottom: -50px; /* Отступ от нижнего края */
+  position: fixed;
+  bottom: 90px; /* или любое другое значение, которое вы предпочитаете */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 10px;
+  z-index: 999; /* Устанавливаем z-index, чтобы кнопки были поверх других элементов */
 }
 
 .buttons-container button {
@@ -159,40 +174,47 @@
   display: none;
 }
 
-.upgrade-section {
-  text-align: center;
+.boost-button,
+.missions-button,
+.upgrade-button,
+.referral-button {
+  margin: 5px;
+  padding: 10px 15px;
+  font-size: 13px;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+}
+
+.click-upgrade-section {
+  position: relative;
+  margin: 0;
 }
 
 .upgrade-info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 50px;
   position: relative;
+  margin: 0;
 }
 
-.upgrlevel {
+.Clickupgrlevel {
   position: relative;
-  top: -50px; /* Измененное значение верхнего отступа */
-  margin-left: 150px; /* Измененное значение левого отступа */
+  margin: 0;
 }
 
-.upgradecost {
+.Clickupgradecost {
   position: relative;
-  margin-top: 170px;
-  top: -150px; /* Задайте верхний отступ */
-  left: 0; /* Задайте правый отступ */
+  margin: 0;
 }
 
-.upgradeclickbutton {
-  position: absolute;
-  margin-top: 40px;
-  left: -50px;
-  font-size: 1.5em;
+.Clickupgradeclickbutton {
+  position: relative;
+  margin: 0;
+  margin-left: -10%;
+  font-size: 1em; /* Используйте относительный размер шрифта */
+}
+
+.Energyupgradeclickbutton {
+  position: relative;
+  margin: 0;
+  margin-left: -10%;
+  font-size: 1em; /* Используйте относительный размер шрифта */
+  margin-top: 0; /* Используйте относительные значения для отступов */
 }
