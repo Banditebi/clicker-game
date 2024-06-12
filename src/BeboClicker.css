@@ -186,6 +186,11 @@
     z-index: 0; /* Поместить фон выше других элементов */
   }
 
+  .no-select {
+    user-select: none;
+    cursor: default;
+  }
+
   .clicker-image {
     position: absolute;
     margin-top: -20px; /* Поднимаем изображение на 70px выше */
@@ -198,7 +203,7 @@
   .coins-display {
     position: absolute;
     text-align: center;
-    top: 10px;
+    top: 25px;
     left: 85px;
     right: 85px;
     padding: 10px;

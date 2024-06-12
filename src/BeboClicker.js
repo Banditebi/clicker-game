@@ -4,9 +4,7 @@ import clickerImage from "./clicker-image.png";
 import boostImage from "./boost-image.png";
 import missionsImage from "./missions-image.png";
 import referralImage from "./referral-image.png";
-import upgradeImage from "./upgrade-image.png";
 
-// Функция для форматирования числа с разделителями тысяч
 function formatNumberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
