@@ -1,4 +1,3 @@
-// App.js
 import React, { useState } from "react";
 import BeboClicker from "./BeboClicker";
 import "./App.css";
@@ -15,7 +14,10 @@ function App() {
   return (
     <div className="App">
       {currentPage === "BeboClicker" && (
-        <BeboClicker onUpgradeClick={handleUpgradeClick} />
+        <>
+          <div className="black-background"></div> {/* Добавляем черный фон */}
+          <BeboClicker onUpgradeClick={handleUpgradeClick} />
+        </>
       )}
     </div>
   );

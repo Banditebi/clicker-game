@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
+import boostImage from "./boost-image.png";
+import missionsImage from "./missions-image.png";
+import referralImage from "./referral-image.png";
+import upgradeImage from "./upgrade-image.png";
+
+// Функция для форматирования числа с разделителями тысяч
+function formatNumberWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 function BeboClicker({ onUpgradeClick }) {
   const [coins, setCoins] = useState(() => {
@@ -72,7 +80,7 @@ function BeboClicker({ onUpgradeClick }) {
 
     saveData();
 
-    const interval = setInterval(saveData, 5000); // Save data every 5 seconds
+    const interval = setInterval(saveData, 5000); // Сохраняем данные каждые 5 секунд
     return () => clearInterval(interval);
   }, [
     coins,
@@ -111,25 +119,25 @@ function BeboClicker({ onUpgradeClick }) {
       document.body.appendChild(clickText);
       setTimeout(() => {
         document.body.removeChild(clickText);
-      }, 1000); // Remove click text after 1 second
+      }, 1000); // Удалить текст клика через 1 секунду
     }
   };
 
   const handleBoostClick = () => {
-    // Implement boost functionality
+    // Реализовать функциональность усиления
   };
 
   const handleMissionsClick = () => {
-    // Implement missions functionality
+    // Реализовать функциональность миссий
   };
 
   const handleUpgradeClick = () => {
-    setIsUpgrading((prevState) => !prevState); // Toggle isUpgrading state
+    setIsUpgrading((prevState) => !prevState); // Переключаем состояние isUpgrading
     onUpgradeClick();
   };
 
   const handleReferralClick = () => {
-    // Implement referral functionality
+    // Реализовать функциональность рефералов
   };
 
   const handleClickUpgrade = () => {
@@ -151,6 +159,9 @@ function BeboClicker({ onUpgradeClick }) {
 
   return (
     <div className={`bebo-clicker ${isUpgrading ? "upgrading" : ""}`}>
+      {/* Отображаем количество монет с разделителями тысяч */}
+      <div className="coins-display">{formatNumberWithCommas(coins)}</div>
+
       {/* Отображаем изображение для клика и размещаем его посередине */}
       <img
         src={clickerImage}
@@ -164,6 +175,22 @@ function BeboClicker({ onUpgradeClick }) {
         }}
         onPointerDown={handlePointerDown}
       />
+
+      {/* Кнопки внизу экрана */}
+      <div className="bottom-buttons">
+        <div className="button" onClick={handleBoostClick}>
+          <img src={boostImage} alt="Boost" />
+        </div>
+        <div className="button" onClick={handleMissionsClick}>
+          <img src={missionsImage} alt="Missions" />
+        </div>
+        <div className="button" onClick={handleReferralClick}>
+          <img src={referralImage} alt="Referral" />
+        </div>
+        <div className="button" onClick={handleUpgradeClick}>
+          <img src={upgradeImage} alt="Upgrade" />
+        </div>
+      </div>
     </div>
   );
 }
