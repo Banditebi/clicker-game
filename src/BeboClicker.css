@@ -145,7 +145,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 0px;
+  gap: 20px;
   z-index: 999; /* Устанавливаем z-index, чтобы кнопки были поверх других элементов */
 }
 
@@ -178,10 +178,18 @@
 .missions-button,
 .upgrade-button,
 .referral-button {
-  margin: 0px;
-  padding: 15px 15px;
-  font-size: 10px;
-  position: relative;
+  width: 60px; /* Установите нужный размер */
+  height: 60px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  margin-bottom: -50px;
+}
+
+.boost-button:active,
+.missions-button:active,
+.upgrade-button:active,
+.referral-button:active {
+  transform: scale(0.95);
 }
 
 .click-upgrade-section {

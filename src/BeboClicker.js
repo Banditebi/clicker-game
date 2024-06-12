@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
+import boostImage from "./boost-image.png";
+import missionsImage from "./missions-image.png";
+import upgradeImage from "./upgrade-image.png";
+import referralImage from "./referral-image.png"; // Импортируйте свои изображения
 
 function BeboClicker({ onUpgradeClick }) {
   const [coins, setCoins] = useState(() => {
@@ -196,18 +200,30 @@ function BeboClicker({ onUpgradeClick }) {
         </div>
       )}
       <div className="buttons-container">
-        <button className="boost-button" onClick={handleBoostClick}>
-          Boost
-        </button>
-        <button className="missions-button" onClick={handleMissionsClick}>
-          Missions
-        </button>
-        <button className="upgrade-button" onClick={handleUpgradeClick}>
-          Upgrade
-        </button>
-        <button className="referral-button" onClick={handleReferralClick}>
-          Referral
-        </button>
+        <img
+          src={boostImage}
+          alt="Boost"
+          className="boost-button"
+          onClick={handleBoostClick}
+        />
+        <img
+          src={missionsImage}
+          alt="Missions"
+          className="missions-button"
+          onClick={handleMissionsClick}
+        />
+        <img
+          src={upgradeImage}
+          alt="Upgrade"
+          className="upgrade-button"
+          onClick={handleUpgradeClick}
+        />
+        <img
+          src={referralImage}
+          alt="Referral"
+          className="referral-button"
+          onClick={handleReferralClick}
+        />
       </div>
     </div>
   );
