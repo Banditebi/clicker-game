@@ -157,25 +157,18 @@ function BeboClicker({ onUpgradeClick }) {
 
   return (
     <div className={`bebo-clicker ${isUpgrading ? "upgrading" : ""}`}>
-      {/* Отображаем количество монет с разделителями тысяч */}
+      <div className="black-background" />
+
       <div className="coins-display">{formatNumberWithCommas(coins)}</div>
 
-      {/* Отображаем текущую энергию */}
       <div className="energy-display">
         {energy} / {maxEnergy}
       </div>
 
-      {/* Отображаем изображение для клика и размещаем его посередине */}
       <img
         src={clickerImage}
         alt="Clicker"
         className="clicker-image"
-        style={{
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
         onPointerDown={handlePointerDown}
       />
       <hr className="divider" />
