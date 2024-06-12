@@ -42,6 +42,12 @@
     transform: translateY(-40px);
   }
 }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1f1f1f; /* Установите нужный цвет фона */
+  overflow: hidden; /* Скрыть содержимое, выходящее за пределы страницы */
+}
 
 /* Стили для предотвращения выделения и синего фона */
 * {
@@ -123,8 +129,8 @@ button {
   border: none;
   height: 2px;
   background-color: #fffdfd; /* Установите нужный цвет */
-  position: fixed;
-  bottom: 90px; /* или любое другое значение, которое вы предпочитаете */
+  position: absolute;
+  bottom: -95px; /* или любое другое значение, которое вы предпочитаете */
   left: 50%;
   transform: translateX(-50%);
   z-index: 998; /* Устанавливаем z-index, чтобы линия была под кнопками */
@@ -189,8 +195,8 @@ button {
 }
 
 .buttons-container {
-  position: fixed;
-  bottom: 80px; /* или любое другое значение, которое вы предпочитаете */
+  position: absolute;
+  bottom: -105px; /* или любое другое значение, которое вы предпочитаете */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
