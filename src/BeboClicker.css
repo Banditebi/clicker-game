@@ -176,7 +176,11 @@
 @media only screen and (min-aspect-ratio: 9 / 16) and (max-aspect-ratio: 4 / 5) {
   /* BeboClicker.css */
 
+  html,
   body {
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+    overflow: hidden;
     user-select: none; /* Предотвращение выделения текста на всей странице */
     margin: 0;
     padding: 0;

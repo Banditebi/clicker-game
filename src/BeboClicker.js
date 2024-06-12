@@ -155,6 +155,28 @@ function BeboClicker({ onUpgradeClick }) {
     }
   };
 
+  useEffect(() => {
+    const disableZoom = (event) => {
+      if (event.touches.length > 1 || event.scale !== 1) {
+        event.preventDefault();
+      }
+    };
+
+    document.addEventListener("gesturestart", disableZoom);
+    document.addEventListener("gesturechange", disableZoom);
+    document.addEventListener("gestureend", disableZoom);
+    document.addEventListener("touchstart", disableZoom, { passive: false });
+    document.addEventListener("touchmove", disableZoom, { passive: false });
+
+    return () => {
+      document.removeEventListener("gesturestart", disableZoom);
+      document.removeEventListener("gesturechange", disableZoom);
+      document.removeEventListener("gestureend", disableZoom);
+      document.removeEventListener("touchstart", disableZoom);
+      document.removeEventListener("touchmove", disableZoom);
+    };
+  }, []);
+
   return (
     <div className={`bebo-clicker ${isUpgrading ? "upgrading" : ""}`}>
       <div className="black-background" />
