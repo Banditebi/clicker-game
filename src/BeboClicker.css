@@ -173,6 +173,7 @@
 /* chemi divice chemikai Devices: iPhone 5/SE, Kindle Fire */
 @media only screen and (min-aspect-ratio: 9 / 16) and (max-aspect-ratio: 4 / 5) {
   /* BeboClicker.css */
+
   /* Общие стили для приложения */
 
   html,
@@ -192,9 +193,7 @@
     width: 100%;
     height: 100%;
     background-color: #000;
-    z-index: 1; /* Убедимся, что фон ниже других элементов */
-    user-select: none;
-    pointer-events: none;
+    z-index: 0; /* Поместить фон выше других элементов */
   }
 
   .no-select {
@@ -339,11 +338,57 @@
   }
 
   /* Добавьте новый класс для скрытия элементов */
-  .boost-active .coins-display,
+
   .boost-active .energy-display,
   .boost-active .clicker-image {
-    display: none;
-    z-index: 0;
+    display: none !important; /* Скрытие элементов при активации Boost */
+  }
+
+  .hidden {
+    display: none; /* или другие стили, скрывающие элемент */
+  }
+
+  .boost-active .divider,
+  .boost-active .coins-display {
+    display: visible !important; /* Скрытие элементов при активации Boost */
+  }
+
+  .back-button {
+    color: rgb(0, 0, 0);
+    right: 260px;
+    position: absolute;
+    font-size: 0.9em;
+    z-index: 3;
+    bottom: 450px;
+    text-align: center;
+    user-select: none;
+  }
+
+  .click-boost-button {
+    position: absolute;
+    bottom: 350px;
+    left: 50px;
+    background-color: rgb(88, 84, 84);
+    color: yellow;
+  }
+  .coin-popup {
+    position: absolute;
+    font-size: 16px;
+    color: gold;
+    animation: fadeOut 1s forwards;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
   }
 }
 
