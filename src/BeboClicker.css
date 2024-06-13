@@ -355,13 +355,14 @@
 
   .back-button {
     color: rgb(0, 0, 0);
-    right: 260px;
+    right: 315px;
     position: absolute;
     font-size: 0.9em;
     z-index: 3;
-    bottom: 540px;
+    bottom: 605px;
     text-align: center;
     user-select: none;
+    height: 30px;
   }
 
   .click-boost-button {
