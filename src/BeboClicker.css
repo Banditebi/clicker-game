@@ -355,11 +355,11 @@
 
   .back-button {
     color: rgb(0, 0, 0);
-    right: 315px;
+    right: 280px;
     position: absolute;
     font-size: 0.9em;
     z-index: 3;
-    bottom: 605px;
+    bottom: 555px;
     text-align: center;
     user-select: none;
     height: 30px;
