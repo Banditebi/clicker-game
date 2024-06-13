@@ -42,6 +42,7 @@ function BeboClicker() {
     if (!isClickBoostActive && clickBoost > 0) {
       setCoinsPerClick((prevCoinsPerClick) => prevCoinsPerClick * 5); // Увеличиваем coinsPerClick
       setClickBoost((prevClickBoost) => prevClickBoost - 1); // Уменьшаем clickBoost
+      setMaxClickBoost((prevMaxClickBoost) => prevMaxClickBoost - 1); // Уменьшаем maxClickBoost
       setIsClickBoostActive(true);
       setIsBoostActive(false); // Устанавливаем isBoostActive в false
 
@@ -140,10 +141,10 @@ function BeboClicker() {
         {isBoostActive && !isClickBoostActive && (
           <button
             className="button click-boost-button"
-            onClick={activateClickBoost}
+            onClick={() => activateClickBoost(setClickBoost, setMaxClickBoost)}
             disabled={isClickBoostActive || clickBoost === 0} // Делаем кнопку неактивной, если усиление кликов активно или clickBoost равен 0
           >
-            <span className="clickboosttextbtn">Click Boost</span>
+            <span className="clickboosttextbtn">Boost 5x: {clickBoost}/3</span>
           </button>
         )}
       </div>
