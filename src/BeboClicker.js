@@ -9,60 +9,35 @@ function formatNumberWithCommas(number) {
 function BeboClicker() {
   const [coins, setCoins] = useState(0);
   const [isBoostActive, setIsBoostActive] = useState(false);
-  const [upgradeLevel, setUpgradeLevel] = useState(1);
   const [energy, setEnergy] = useState(500);
   const [maxEnergy, setMaxEnergy] = useState(500);
-  const [clickText, setClickText] = useState("");
-  const [clickTextPosition, setClickTextPosition] = useState({ x: 0, y: 0 });
+  const [coinsPerClick] = useState(1);
+  const [isEnergyEnough, setIsEnergyEnough] = useState(true);
+
+  const [energyPerSec] = useState(1);
 
   const clickCountRef = useRef(0);
+  const clickTimerRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setEnergy((prevEnergy) => {
-        const newEnergy = Math.min(prevEnergy + 1, maxEnergy);
-        return newEnergy;
-      });
+    setIsEnergyEnough(energy >= coinsPerClick);
+  }, [energy, coinsPerClick]);
+
+  useEffect(() => {
+    const energyInterval = setInterval(() => {
+      setEnergy((prevEnergy) => Math.min(prevEnergy + energyPerSec, maxEnergy));
     }, 1000);
 
-    return () => clearInterval(interval);
-  }, [maxEnergy]);
+    return () => clearInterval(energyInterval);
+  }, [maxEnergy, energyPerSec]);
 
-  useEffect(() => {
-    if (clickCountRef.current > 0) {
-      setCoins((prevCoins) => {
-        const increment = clickCountRef.current;
-        const newCoins = prevCoins + increment * upgradeLevel;
-        return newCoins;
-      });
-
-      setEnergy((prevEnergy) => {
-        const decrement = clickCountRef.current;
-        const newEnergy = Math.max(prevEnergy - decrement, 0);
-        return newEnergy;
-      });
-
-      clickCountRef.current = 0; // Сбрасываем количество кликов
+  const handleButtonClick = () => {
+    if (energy >= coinsPerClick) {
+      const clicks = clickCountRef.current;
+      setCoins((prevCoins) => prevCoins + coinsPerClick * clicks);
+      setEnergy((prevEnergy) => prevEnergy - coinsPerClick * clicks);
+      clickCountRef.current = 0;
     }
-  }, [upgradeLevel]);
-
-  const handleButtonClick = (event) => {
-    clickCountRef.current += 1; // Увеличиваем количество кликов на каждом касании
-    setCoins((prevCoins) => prevCoins + 1); // Увеличиваем монеты на 1 при каждом клике
-
-    // Получаем координаты клика относительно изображения
-    const rect = event.target.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-
-    // Устанавливаем текст и его позицию для отображения
-    setClickText("+1");
-    setClickTextPosition({ x, y });
-
-    // Скрываем текст через 0.4 секунды
-    setTimeout(() => {
-      setClickText("");
-    }, 400);
   };
 
   const handleBoostClick = () => {
@@ -73,11 +48,11 @@ function BeboClicker() {
   };
 
   const handleMissionsClick = () => {
-    // Действие при нажатии на кнопку "Миссии"
+    // Handle missions button click action
   };
 
   const handleReferralClick = () => {
-    // Действие при нажатии на кнопку "Рефералы"
+    // Handle referral button click action
   };
 
   return (
@@ -92,16 +67,14 @@ function BeboClicker() {
           className="clicker-image"
           alt="Clicker"
           draggable="false"
-          onClick={handleButtonClick}
+          onTouchStart={(event) => {
+            event.preventDefault(); // Предотвращаем стандартное поведение браузера
+            if (isEnergyEnough) {
+              clickCountRef.current += 1;
+              handleButtonClick();
+            }
+          }}
         />
-        {clickText && (
-          <div
-            className="click-text"
-            style={{ left: clickTextPosition.x, top: clickTextPosition.y }}
-          >
-            {clickText}
-          </div>
-        )}
       </div>
 
       <div className="bottom-buttons">
