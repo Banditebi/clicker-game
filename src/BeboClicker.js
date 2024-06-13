@@ -34,6 +34,7 @@ function BeboClicker({ onUpgradeClick }) {
   });
 
   const [isUpgrading, setIsUpgrading] = useState(false);
+  const [isBoostActive, setIsBoostActive] = useState(false);
   const [upgradeLevel, setUpgradeLevel] = useState(() => {
     const savedLevel = JSON.parse(localStorage.getItem("upgradeLevel"));
     return savedLevel !== null ? savedLevel : 1;
@@ -100,114 +101,58 @@ function BeboClicker({ onUpgradeClick }) {
     return () => clearInterval(energyInterval);
   }, [energy, maxEnergy]);
 
-  const handlePointerDown = (e) => {
-    const coinsPerClick = 5 * upgradeLevel;
-    if (energy >= coinsPerClick) {
-      setCoins((prevCoins) => prevCoins + coinsPerClick);
-      setEnergy((prevEnergy) => prevEnergy - coinsPerClick);
-      clickPositionRef.current.x = e.clientX;
-      clickPositionRef.current.y = e.clientY;
-      const x = clickPositionRef.current.x;
-      const y = clickPositionRef.current.y;
-      const clickText = document.createElement("span");
-      clickText.className = "click-text";
-      clickText.innerText = `+${coinsPerClick}`;
-      clickText.style.top = `${y}px`;
-      clickText.style.left = `${x}px`;
-      document.body.appendChild(clickText);
-      setTimeout(() => {
-        document.body.removeChild(clickText);
-      }, 1000); // Удалить текст клика через 1 секунду
-    }
+  const handleButtonClick = () => {
+    setCoins((prevCoins) => prevCoins + upgradeLevel);
   };
 
   const handleBoostClick = () => {
-    // Реализовать функциональность усиления
+    setIsBoostActive(true);
+    setTimeout(() => {
+      setIsBoostActive(false);
+    }, 30000);
   };
 
   const handleMissionsClick = () => {
-    // Реализовать функциональность миссий
-  };
-
-  const handleUpgradeClick = () => {
-    setIsUpgrading((prevState) => !prevState); // Переключаем состояние isUpgrading
-    onUpgradeClick();
+    // Действие при нажатии на кнопку "Миссии"
   };
 
   const handleReferralClick = () => {
-    // Реализовать функциональность рефералов
+    // Действие при нажатии на кнопку "Рефералы"
   };
-
-  const handleClickUpgrade = () => {
-    if (coins >= upgradeCost) {
-      setCoins((prevCoins) => prevCoins - upgradeCost);
-      setUpgradeLevel((prevLevel) => prevLevel + 1);
-      setUpgradeCost((prevCost) => prevCost + 500);
-    }
-  };
-
-  const handleEnergyUpgradeClick = () => {
-    if (coins >= energyUpgradeCost && energyUpgradeLevel < 20) {
-      setCoins((prevCoins) => prevCoins - energyUpgradeCost);
-      setEnergyUpgradeLevel((prevLevel) => prevLevel + 1);
-      setEnergyUpgradeCost((prevCost) => prevCost + 500);
-      setMaxEnergy((prevMaxEnergy) => prevMaxEnergy + 500);
-    }
-  };
-
-  useEffect(() => {
-    const disableZoom = (event) => {
-      if (event.touches.length > 1 || event.scale !== 1) {
-        event.preventDefault();
-      }
-    };
-
-    document.addEventListener("gesturestart", disableZoom);
-    document.addEventListener("gesturechange", disableZoom);
-    document.addEventListener("gestureend", disableZoom);
-    document.addEventListener("touchstart", disableZoom, { passive: false });
-    document.addEventListener("touchmove", disableZoom, { passive: false });
-
-    return () => {
-      document.removeEventListener("gesturestart", disableZoom);
-      document.removeEventListener("gesturechange", disableZoom);
-      document.removeEventListener("gestureend", disableZoom);
-      document.removeEventListener("touchstart", disableZoom);
-      document.removeEventListener("touchmove", disableZoom);
-    };
-  }, []);
 
   return (
-    <div className={`bebo-clicker ${isUpgrading ? "upgrading" : ""}`}>
-      <div className="black-background" />
-
-      <div className="coins-display">{formatNumberWithCommas(coins)}</div>
-
-      <div className="energy-display">
-        {energy} / {maxEnergy}
-      </div>
-
+    <div className={`app-container ${isBoostActive ? "boost-active" : ""}`}>
+      <div className="black-background"></div>
+      <div className="coins-display">{formatNumberWithCommas(coins)} coins</div>
+      <div className="energy-display">Energy: {energy}</div>
+      <hr className="divider" />
       <img
         src={clickerImage}
-        alt="Clicker"
         className="clicker-image"
-        onPointerDown={handlePointerDown}
+        onClick={handleButtonClick}
+        alt="Clicker"
+        draggable="false"
       />
-      <hr className="divider" />
-
       <div className="bottom-buttons">
-        <div className="button boost-button" onClick={handleBoostClick}>
-          <img src={boostImage} alt="Boost" />
-          <p className="boosttextbtn">Boost</p>
-        </div>
-        <div className="button missions-button" onClick={handleMissionsClick}>
-          <img src={missionsImage} alt="Missions" />
-          <p className="missiontextbtn">Tasks</p>
-        </div>
-        <div className="button referral-button" onClick={handleReferralClick}>
-          <img src={referralImage} alt="Referral" />
-          <p className="referaltextbtn">Mates</p>
-        </div>
+        <button
+          className="button boost-button"
+          onClick={handleBoostClick}
+          disabled={isBoostActive}
+        >
+          <span className="boosttextbtn">Boost</span>
+        </button>
+        <button
+          className="button missions-button"
+          onClick={handleMissionsClick}
+        >
+          <span className="missiontextbtn">Missions</span>
+        </button>
+        <button
+          className="button referral-button"
+          onClick={handleReferralClick}
+        >
+          <span className="referaltextbtn">Referral</span>
+        </button>
       </div>
     </div>
   );
