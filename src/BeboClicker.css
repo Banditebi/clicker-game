@@ -382,6 +382,15 @@
     color: yellow;
     width: 150px;
   }
+
+  .upgrade-coins-per-click-button {
+    position: absolute;
+    bottom: 350px;
+    left: 20px;
+    background-color: rgb(88, 84, 84);
+    color: yellow;
+    width: 325px;
+  }
 }
 
 /* Devices: Samsung */

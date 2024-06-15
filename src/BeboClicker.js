@@ -7,62 +7,71 @@ function formatNumberWithCommas(number) {
 }
 
 function BeboClicker() {
-  const [coins, setCoins] = useState(0);
+  const [coins, setCoins] = useState(2500);
   const [isBoostActive, setIsBoostActive] = useState(false);
   const [energy, setEnergy] = useState(500);
   const [maxEnergy, setMaxEnergy] = useState(500);
   const [coinsPerClick, setCoinsPerClick] = useState(1);
+  const [initialCoinsPerClick, setInitialCoinsPerClick] = useState(1);
   const [isEnergyEnough, setIsEnergyEnough] = useState(true);
-  const [energyPerSec] = useState(1);
   const [clickBoost, setClickBoost] = useState(3);
   const [maxClickBoost, setMaxClickBoost] = useState(3);
   const [isClickBoostActive, setIsClickBoostActive] = useState(false);
   const [boostDuration, setBoostDuration] = useState(20);
+  const [restoreEnergy, setRestoreEnergy] = useState(3);
 
-  const [restoreEnergy, setRestoreEnergy] = useState(3); // Добавляем состояние для восстановления энергии
+  const [coinsPerClickUpgradeLevel, setCoinsPerClickUpgradeLevel] = useState(1);
+  const [coinsPerClickUpgradeCost, setCoinsPerClickUpgradeCost] = useState(500);
 
   const clickCountRef = useRef(0);
 
-  useEffect(() => {
-    setIsEnergyEnough(energy >= coinsPerClick * clickBoost);
-  }, [energy, coinsPerClick, clickBoost]);
+  // Функция для восстановления энергии
+  const restoreEnergyPerSecond = () => {
+    if (energy < maxEnergy) {
+      setEnergy((prevEnergy) => Math.min(prevEnergy + 1, maxEnergy));
+    }
+  };
 
+  // Устанавливаем интервал для восстановления энергии каждую секунду
   useEffect(() => {
-    const energyInterval = setInterval(() => {
-      if (!isClickBoostActive) {
-        setEnergy((prevEnergy) =>
-          Math.min(prevEnergy + energyPerSec, maxEnergy)
-        );
-      }
+    const interval = setInterval(() => {
+      restoreEnergyPerSecond();
     }, 1000);
 
-    return () => clearInterval(energyInterval);
-  }, [maxEnergy, energyPerSec, isClickBoostActive]);
+    return () => clearInterval(interval);
+  }, [energy, maxEnergy]);
 
   const activateClickBoost = () => {
     if (!isClickBoostActive && clickBoost > 0) {
-      setCoinsPerClick((prevCoinsPerClick) => prevCoinsPerClick * 5);
+      setInitialCoinsPerClick(coinsPerClick);
+      const boostedCoinsPerClick = coinsPerClick * 5;
+
       setClickBoost((prevClickBoost) => prevClickBoost - 1);
       setMaxClickBoost((prevMaxClickBoost) => prevMaxClickBoost - 1);
       setIsClickBoostActive(true);
       setIsBoostActive(false);
 
       setTimeout(() => {
-        setCoinsPerClick(1);
+        // Восстанавливаем изначальное значение coinsPerClick после окончания буста
+        setCoinsPerClick(initialCoinsPerClick);
         setIsClickBoostActive(false);
       }, boostDuration * 1000);
+
+      // Повышаем coinsPerClick только после установки таймаута
+      setCoinsPerClick(boostedCoinsPerClick);
     }
   };
 
   const handleButtonClick = () => {
-    if (isEnergyEnough) {
-      if (clickCountRef.current > 0) {
-        setCoins((prevCoins) => prevCoins + coinsPerClick);
-        if (!isClickBoostActive) {
-          setEnergy((prevEnergy) => prevEnergy - coinsPerClick);
-        }
-        clickCountRef.current = 0;
+    if (isEnergyEnough && (!isClickBoostActive || energy >= coinsPerClick)) {
+      const currentCoinsPerClick = isClickBoostActive
+        ? coinsPerClick * 5
+        : coinsPerClick;
+      setCoins((prevCoins) => prevCoins + currentCoinsPerClick);
+      if (!isClickBoostActive) {
+        setEnergy((prevEnergy) => prevEnergy - currentCoinsPerClick);
       }
+      clickCountRef.current = 0;
     }
   };
 
@@ -75,18 +84,27 @@ function BeboClicker() {
   };
 
   const handleMissionsClick = () => {
-    // Handle missions button click action
+    // Обработка нажатия кнопки "Миссии"
   };
 
   const handleReferralClick = () => {
-    // Handle referral button click action
+    // Обработка нажатия кнопки "Рефералы"
   };
 
   const handleRestoreEnergy = () => {
     if (restoreEnergy > 0) {
       setEnergy(maxEnergy);
       setRestoreEnergy((prevRestoreEnergy) => prevRestoreEnergy - 1);
-      setIsBoostActive(false); // Set isBoostActive to false
+      setIsBoostActive(false);
+    }
+  };
+
+  const handleUpgradeCoinsPerClick = () => {
+    if (coins >= coinsPerClickUpgradeCost) {
+      setCoins((prevCoins) => prevCoins - coinsPerClickUpgradeCost);
+      setCoinsPerClick((prevCoinsPerClick) => prevCoinsPerClick + 1);
+      setCoinsPerClickUpgradeLevel((prevLevel) => prevLevel + 1);
+      setCoinsPerClickUpgradeCost((prevCost) => prevCost * 2);
     }
   };
 
@@ -131,36 +149,53 @@ function BeboClicker() {
           onClick={handleBoostClick}
           disabled={isBoostActive}
         >
-          <span className="boosttextbtn">Boost</span>
+          <span className="boosttextbtn">Ускорение</span>
         </button>
         <button
           className="button missions-button"
           onClick={handleMissionsClick}
         >
-          <span className="missiontextbtn">Missions</span>
+          <span className="missiontextbtn">Миссии</span>
         </button>
         <button
           className="button referral-button"
           onClick={handleReferralClick}
         >
-          <span className="referaltextbtn">Referrals</span>
+          <span className="referaltextbtn">Рефералы</span>
         </button>
         {isBoostActive && !isClickBoostActive && (
           <button
             className="button click-boost-button"
-            onClick={() => activateClickBoost(setClickBoost, setMaxClickBoost)}
+            onClick={activateClickBoost}
             disabled={isClickBoostActive || clickBoost === 0}
           >
-            <span className="clickboosttextbtn">Boost 5x: {clickBoost}/3</span>
+            <span className="clickboosttextbtn">
+              Ускорение 5x: {clickBoost}/3
+            </span>
+          </button>
+        )}
+        {isBoostActive && !isClickBoostActive && (
+          <button
+            className="button upgrade-coins-per-click-button"
+            onClick={handleUpgradeCoinsPerClick}
+            disabled={coins < coinsPerClickUpgradeCost}
+          >
+            <span className="upgrade-coins-per-click-text">
+              Улучшение клика
+            </span>{" "}
+            <br />
+            <span>Уровень: {coinsPerClickUpgradeLevel}</span>
+            <br />
+            <span>Стоимость: {coinsPerClickUpgradeCost}</span>
           </button>
         )}
         {isBoostActive && (
           <button
             className="button restore-energy-button"
             onClick={handleRestoreEnergy}
-            disabled={restoreEnergy === 0} // Делаем кнопку неактивной, если restoreEnergy равно 0
+            disabled={restoreEnergy === 0}
           >
-            <span className="restoreenergytextbtn">Energy Tank: </span>
+            <span className="restoreenergytextbtn">Топливный бак: </span>
             <span className="restoreenergytextbtn">{restoreEnergy}/3</span>
           </button>
         )}
