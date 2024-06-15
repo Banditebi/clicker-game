@@ -19,6 +19,8 @@ function BeboClicker() {
   const [restoreEnergy, setRestoreEnergy] = useState(3);
   const [coinsPerClickUpgradeLevel, setCoinsPerClickUpgradeLevel] = useState(1);
   const [coinsPerClickUpgradeCost, setCoinsPerClickUpgradeCost] = useState(500);
+  const [maxEnergyUpgradeLevel, setMaxEnergyUpgradeLevel] = useState(1);
+  const [maxEnergyUpgradeCost, setMaxEnergyUpgradeCost] = useState(2500);
 
   const initialCoinsPerClickRef = useRef(1); // Use ref to store the initial coins per click
 
@@ -99,6 +101,15 @@ function BeboClicker() {
       setCoinsPerClick((prevCoinsPerClick) => prevCoinsPerClick + 1);
       setCoinsPerClickUpgradeLevel((prevLevel) => prevLevel + 1);
       setCoinsPerClickUpgradeCost((prevCost) => prevCost * 2);
+    }
+  };
+
+  const handleUpgradeMaxEnergy = () => {
+    if (coins >= maxEnergyUpgradeCost) {
+      setCoins((prevCoins) => prevCoins - maxEnergyUpgradeCost);
+      setMaxEnergy((prevMaxEnergy) => prevMaxEnergy + 500); // Increase max energy by 50
+      setMaxEnergyUpgradeLevel((prevLevel) => prevLevel + 1);
+      setMaxEnergyUpgradeCost((prevCost) => prevCost * 2);
     }
   };
 
@@ -190,6 +201,21 @@ function BeboClicker() {
           >
             <span className="restoreenergytextbtn">Топливный бак: </span>
             <span className="restoreenergytextbtn">{restoreEnergy}/3</span>
+          </button>
+        )}
+        {isBoostActive && (
+          <button
+            className="button upgrade-max-energy-button"
+            onClick={handleUpgradeMaxEnergy}
+            disabled={coins < maxEnergyUpgradeCost}
+          >
+            <span className="upgrade-max-energy-text">
+              Улучшение макс. энергии
+            </span>{" "}
+            <br />
+            <span>Уровень: {maxEnergyUpgradeLevel}</span>
+            <br />
+            <span>Стоимость: {maxEnergyUpgradeCost}</span>
           </button>
         )}
       </div>

@@ -391,6 +391,15 @@
     color: yellow;
     width: 325px;
   }
+
+  .upgrade-max-energy-button {
+    position: absolute;
+    bottom: 275px;
+    left: 20px;
+    background-color: rgb(88, 84, 84);
+    color: yellow;
+    width: 325px;
+  }
 }
 
 /* Devices: Samsung */
