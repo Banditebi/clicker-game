@@ -11,19 +11,16 @@ function BeboClicker() {
   const [isBoostActive, setIsBoostActive] = useState(false);
   const [energy, setEnergy] = useState(500);
   const [maxEnergy, setMaxEnergy] = useState(500);
-  const [coinsPerClick, setCoinsPerClick] = useState(1);
-  const [initialCoinsPerClick, setInitialCoinsPerClick] = useState(1);
-  const [isEnergyEnough, setIsEnergyEnough] = useState(true);
+  const [coinsPerClick, setCoinsPerClick] = useState(15);
   const [clickBoost, setClickBoost] = useState(3);
   const [maxClickBoost, setMaxClickBoost] = useState(3);
   const [isClickBoostActive, setIsClickBoostActive] = useState(false);
   const [boostDuration, setBoostDuration] = useState(20);
   const [restoreEnergy, setRestoreEnergy] = useState(3);
-
   const [coinsPerClickUpgradeLevel, setCoinsPerClickUpgradeLevel] = useState(1);
   const [coinsPerClickUpgradeCost, setCoinsPerClickUpgradeCost] = useState(500);
 
-  const clickCountRef = useRef(0);
+  const initialCoinsPerClickRef = useRef(1); // Use ref to store the initial coins per click
 
   // Функция для восстановления энергии
   const restoreEnergyPerSecond = () => {
@@ -43,7 +40,7 @@ function BeboClicker() {
 
   const activateClickBoost = () => {
     if (!isClickBoostActive && clickBoost > 0) {
-      setInitialCoinsPerClick(coinsPerClick);
+      initialCoinsPerClickRef.current = coinsPerClick; // Store initial coins per click
       const boostedCoinsPerClick = coinsPerClick * 5;
 
       setClickBoost((prevClickBoost) => prevClickBoost - 1);
@@ -52,26 +49,23 @@ function BeboClicker() {
       setIsBoostActive(false);
 
       setTimeout(() => {
-        // Восстанавливаем изначальное значение coinsPerClick после окончания буста
-        setCoinsPerClick(initialCoinsPerClick);
+        setCoinsPerClick(initialCoinsPerClickRef.current); // Restore initial coins per click
         setIsClickBoostActive(false);
       }, boostDuration * 1000);
 
-      // Повышаем coinsPerClick только после установки таймаута
       setCoinsPerClick(boostedCoinsPerClick);
     }
   };
 
   const handleButtonClick = () => {
-    if (isEnergyEnough && (!isClickBoostActive || energy >= coinsPerClick)) {
+    if (energy >= coinsPerClick || isClickBoostActive) {
       const currentCoinsPerClick = isClickBoostActive
         ? coinsPerClick * 5
         : coinsPerClick;
       setCoins((prevCoins) => prevCoins + currentCoinsPerClick);
       if (!isClickBoostActive) {
-        setEnergy((prevEnergy) => prevEnergy - currentCoinsPerClick);
+        setEnergy((prevEnergy) => prevEnergy - coinsPerClick);
       }
-      clickCountRef.current = 0;
     }
   };
 
@@ -128,8 +122,7 @@ function BeboClicker() {
             draggable="false"
             onTouchStart={(event) => {
               event.preventDefault();
-              if (isEnergyEnough) {
-                clickCountRef.current += 1;
+              if (energy >= coinsPerClick || isClickBoostActive) {
                 handleButtonClick();
               }
             }}
