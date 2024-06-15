@@ -400,6 +400,14 @@
     color: yellow;
     width: 325px;
   }
+  .buy-bot-button {
+    position: absolute;
+    bottom: 200px;
+    left: 20px;
+    background-color: rgb(88, 84, 84);
+    color: yellow;
+    width: 325px;
+  }
 }
 
 /* Devices: Samsung */

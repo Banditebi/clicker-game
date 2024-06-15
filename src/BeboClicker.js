@@ -7,7 +7,7 @@ function formatNumberWithCommas(number) {
 }
 
 function BeboClicker() {
-  const [coins, setCoins] = useState(2500);
+  const [coins, setCoins] = useState(250000);
   const [isBoostActive, setIsBoostActive] = useState(false);
   const [energy, setEnergy] = useState(500);
   const [maxEnergy, setMaxEnergy] = useState(500);
@@ -21,17 +21,19 @@ function BeboClicker() {
   const [coinsPerClickUpgradeCost, setCoinsPerClickUpgradeCost] = useState(500);
   const [maxEnergyUpgradeLevel, setMaxEnergyUpgradeLevel] = useState(1);
   const [maxEnergyUpgradeCost, setMaxEnergyUpgradeCost] = useState(2500);
+  const [isBotPurchased, setIsBotPurchased] = useState(false);
+  const [botCost, setBotCost] = useState(200000);
 
   const initialCoinsPerClickRef = useRef(1); // Use ref to store the initial coins per click
 
-  // Функция для восстановления энергии
+  // Function to restore energy per second
   const restoreEnergyPerSecond = () => {
     if (energy < maxEnergy) {
       setEnergy((prevEnergy) => Math.min(prevEnergy + 1, maxEnergy));
     }
   };
 
-  // Устанавливаем интервал для восстановления энергии каждую секунду
+  // Set interval to restore energy every second
   useEffect(() => {
     const interval = setInterval(() => {
       restoreEnergyPerSecond();
@@ -80,11 +82,11 @@ function BeboClicker() {
   };
 
   const handleMissionsClick = () => {
-    // Обработка нажатия кнопки "Миссии"
+    // Handle missions button click
   };
 
   const handleReferralClick = () => {
-    // Обработка нажатия кнопки "Рефералы"
+    // Handle referral button click
   };
 
   const handleRestoreEnergy = () => {
@@ -107,11 +109,30 @@ function BeboClicker() {
   const handleUpgradeMaxEnergy = () => {
     if (coins >= maxEnergyUpgradeCost) {
       setCoins((prevCoins) => prevCoins - maxEnergyUpgradeCost);
-      setMaxEnergy((prevMaxEnergy) => prevMaxEnergy + 500); // Increase max energy by 50
+      setMaxEnergy((prevMaxEnergy) => prevMaxEnergy + 500); // Increase max energy by 500
       setMaxEnergyUpgradeLevel((prevLevel) => prevLevel + 1);
       setMaxEnergyUpgradeCost((prevCost) => prevCost * 2);
     }
   };
+
+  const handleBuyBot = () => {
+    if (!isBotPurchased && coins >= botCost) {
+      setCoins((prevCoins) => prevCoins - botCost);
+      setIsBotPurchased(true);
+    }
+  };
+
+  // Effect to add 4 coins per second when bot is purchased
+  useEffect(() => {
+    let botInterval;
+    if (isBotPurchased) {
+      botInterval = setInterval(() => {
+        setCoins((prevCoins) => prevCoins + 4);
+      }, 1000);
+    }
+
+    return () => clearInterval(botInterval);
+  }, [isBotPurchased]);
 
   return (
     <div className={`app-container ${isBoostActive ? "boost-active" : ""}`}>
@@ -195,6 +216,21 @@ function BeboClicker() {
         )}
         {isBoostActive && (
           <button
+            className="button upgrade-max-energy-button" // Добавляем кнопку для улучшения максимальной энергии
+            onClick={handleUpgradeMaxEnergy}
+            disabled={coins < maxEnergyUpgradeCost}
+          >
+            <span className="upgrade-max-energy-text">
+              Увеличение макс. энергии
+            </span>{" "}
+            <br />
+            <span>Уровень: {maxEnergyUpgradeLevel}</span>
+            <br />
+            <span>Стоимость: {maxEnergyUpgradeCost}</span>
+          </button>
+        )}
+        {isBoostActive && (
+          <button
             className="button restore-energy-button"
             onClick={handleRestoreEnergy}
             disabled={restoreEnergy === 0}
@@ -203,23 +239,18 @@ function BeboClicker() {
             <span className="restoreenergytextbtn">{restoreEnergy}/3</span>
           </button>
         )}
-        {isBoostActive && (
+        {isBoostActive && !isBotPurchased && (
           <button
-            className="button upgrade-max-energy-button"
-            onClick={handleUpgradeMaxEnergy}
-            disabled={coins < maxEnergyUpgradeCost}
+            className="button buy-bot-button"
+            onClick={handleBuyBot}
+            disabled={coins < botCost}
           >
-            <span className="upgrade-max-energy-text">
-              Улучшение макс. энергии
-            </span>{" "}
+            <span className="buybottextbtn">Купить бота</span>
             <br />
-            <span>Уровень: {maxEnergyUpgradeLevel}</span>
-            <br />
-            <span>Стоимость: {maxEnergyUpgradeCost}</span>
+            <span>Стоимость: {botCost}</span>
           </button>
         )}
       </div>
-      <hr className="divider" />
     </div>
   );
 }
