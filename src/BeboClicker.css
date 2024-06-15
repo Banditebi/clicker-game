@@ -371,7 +371,16 @@
     left: 20px;
     background-color: rgb(88, 84, 84);
     color: yellow;
-    width: 125px;
+    width: 150px;
+  }
+
+  .restore-energy-button {
+    position: absolute;
+    bottom: 450px;
+    left: 195px;
+    background-color: rgb(88, 84, 84);
+    color: yellow;
+    width: 150px;
   }
 }
 

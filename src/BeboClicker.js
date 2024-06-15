@@ -11,13 +11,15 @@ function BeboClicker() {
   const [isBoostActive, setIsBoostActive] = useState(false);
   const [energy, setEnergy] = useState(500);
   const [maxEnergy, setMaxEnergy] = useState(500);
-  const [coinsPerClick, setCoinsPerClick] = useState(1); // Используем useState для coinsPerClick
+  const [coinsPerClick, setCoinsPerClick] = useState(1);
   const [isEnergyEnough, setIsEnergyEnough] = useState(true);
   const [energyPerSec] = useState(1);
-  const [clickBoost, setClickBoost] = useState(3); // Начальное значение усиления кликов
-  const [maxClickBoost, setMaxClickBoost] = useState(3); // Максимальное значение усиления кликов
-  const [isClickBoostActive, setIsClickBoostActive] = useState(false); // Состояние для отслеживания активности усиления кликов
-  const [boostDuration, setBoostDuration] = useState(20); // Длительность усиления кликов в секундах
+  const [clickBoost, setClickBoost] = useState(3);
+  const [maxClickBoost, setMaxClickBoost] = useState(3);
+  const [isClickBoostActive, setIsClickBoostActive] = useState(false);
+  const [boostDuration, setBoostDuration] = useState(20);
+
+  const [restoreEnergy, setRestoreEnergy] = useState(3); // Добавляем состояние для восстановления энергии
 
   const clickCountRef = useRef(0);
 
@@ -37,18 +39,16 @@ function BeboClicker() {
     return () => clearInterval(energyInterval);
   }, [maxEnergy, energyPerSec, isClickBoostActive]);
 
-  // Функция для активации временного усиления кликов
   const activateClickBoost = () => {
     if (!isClickBoostActive && clickBoost > 0) {
-      setCoinsPerClick((prevCoinsPerClick) => prevCoinsPerClick * 5); // Увеличиваем coinsPerClick
-      setClickBoost((prevClickBoost) => prevClickBoost - 1); // Уменьшаем clickBoost
-      setMaxClickBoost((prevMaxClickBoost) => prevMaxClickBoost - 1); // Уменьшаем maxClickBoost
+      setCoinsPerClick((prevCoinsPerClick) => prevCoinsPerClick * 5);
+      setClickBoost((prevClickBoost) => prevClickBoost - 1);
+      setMaxClickBoost((prevMaxClickBoost) => prevMaxClickBoost - 1);
       setIsClickBoostActive(true);
-      setIsBoostActive(false); // Устанавливаем isBoostActive в false
+      setIsBoostActive(false);
 
-      // Установка таймера для возврата к исходному значению через boostDuration секунд
       setTimeout(() => {
-        setCoinsPerClick(1); // Возвращаем исходное значение coinsPerClick
+        setCoinsPerClick(1);
         setIsClickBoostActive(false);
       }, boostDuration * 1000);
     }
@@ -56,13 +56,12 @@ function BeboClicker() {
 
   const handleButtonClick = () => {
     if (isEnergyEnough) {
-      // Проверяем, было ли уже нажатие
       if (clickCountRef.current > 0) {
         setCoins((prevCoins) => prevCoins + coinsPerClick);
         if (!isClickBoostActive) {
           setEnergy((prevEnergy) => prevEnergy - coinsPerClick);
         }
-        clickCountRef.current = 0; // Сбрасываем количество касаний после каждого нажатия
+        clickCountRef.current = 0;
       }
     }
   };
@@ -81,6 +80,14 @@ function BeboClicker() {
 
   const handleReferralClick = () => {
     // Handle referral button click action
+  };
+
+  const handleRestoreEnergy = () => {
+    if (restoreEnergy > 0) {
+      setEnergy(maxEnergy);
+      setRestoreEnergy((prevRestoreEnergy) => prevRestoreEnergy - 1);
+      setIsBoostActive(false); // Set isBoostActive to false
+    }
   };
 
   return (
@@ -142,9 +149,19 @@ function BeboClicker() {
           <button
             className="button click-boost-button"
             onClick={() => activateClickBoost(setClickBoost, setMaxClickBoost)}
-            disabled={isClickBoostActive || clickBoost === 0} // Делаем кнопку неактивной, если усиление кликов активно или clickBoost равен 0
+            disabled={isClickBoostActive || clickBoost === 0}
           >
             <span className="clickboosttextbtn">Boost 5x: {clickBoost}/3</span>
+          </button>
+        )}
+        {isBoostActive && (
+          <button
+            className="button restore-energy-button"
+            onClick={handleRestoreEnergy}
+            disabled={restoreEnergy === 0} // Делаем кнопку неактивной, если restoreEnergy равно 0
+          >
+            <span className="restoreenergytextbtn">Energy Tank: </span>
+            <span className="restoreenergytextbtn">{restoreEnergy}/3</span>
           </button>
         )}
       </div>
