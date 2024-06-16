@@ -27,6 +27,7 @@ function formatNumberWithCommas(number) {
 }
 
 function BeboClicker() {
+  const [userUid, setUserUid] = useState(null); // State для UID пользователя
   const [coins, setCoins] = useState(250000);
   const [isBoostActive, setIsBoostActive] = useState(false);
   const [energy, setEnergy] = useState(500);
@@ -46,6 +47,32 @@ function BeboClicker() {
 
   const initialCoinsPerClickRef = useRef(1);
 
+  // Функция для получения текущего UID пользователя
+  const getCurrentUserUid = () => {
+    // Здесь должна быть логика для получения UID пользователя
+    // Это зависит от вашей конфигурации Firebase Authentication
+    // Я приведу пример, как это может выглядеть
+    // В реальном приложении это будет зависеть от вашего способа аутентификации пользователей
+    // Например, через Firebase Authentication:
+
+    // const user = auth.currentUser;
+    // if (user) {
+    //   return user.uid;
+    // } else {
+    //   // Handle error, user is not signed in
+    //   return null;
+    // }
+
+    // В данном примере, я буду использовать фиктивное значение
+    return "user1"; // Здесь должен быть реальный UID пользователя
+  };
+
+  useEffect(() => {
+    // Получаем UID пользователя при монтировании компонента
+    const uid = getCurrentUserUid();
+    setUserUid(uid);
+  }, []);
+
   const restoreEnergyPerSecond = () => {
     if (energy < maxEnergy) {
       setEnergy((prevEnergy) => Math.min(prevEnergy + 1, maxEnergy));
@@ -62,24 +89,26 @@ function BeboClicker() {
 
   const saveCoinsToRealtimeDatabase = async (newCoins) => {
     try {
-      const coinsRef = ref(realtimeDb, "users/user1");
-      await setRealtime(coinsRef, {
-        coins: newCoins,
-        energy,
-        maxEnergy,
-        coinsPerClick,
-        clickBoost,
-        maxClickBoost,
-        isClickBoostActive,
-        boostDuration,
-        restoreEnergy,
-        coinsPerClickUpgradeLevel,
-        coinsPerClickUpgradeCost,
-        maxEnergyUpgradeLevel,
-        maxEnergyUpgradeCost,
-        isBotPurchased,
-        botCost,
-      });
+      if (userUid) {
+        const userRef = ref(realtimeDb, `users/${userUid}`);
+        await setRealtime(userRef, {
+          coins: newCoins,
+          energy,
+          maxEnergy,
+          coinsPerClick,
+          clickBoost,
+          maxClickBoost,
+          isClickBoostActive,
+          boostDuration,
+          restoreEnergy,
+          coinsPerClickUpgradeLevel,
+          coinsPerClickUpgradeCost,
+          maxEnergyUpgradeLevel,
+          maxEnergyUpgradeCost,
+          isBotPurchased,
+          botCost,
+        });
+      }
     } catch (error) {
       console.error("Error saving data to Realtime Database:", error);
     }
@@ -87,25 +116,27 @@ function BeboClicker() {
 
   const loadCoinsFromRealtimeDatabase = async () => {
     try {
-      const coinsRef = ref(realtimeDb, "users/user1");
-      const snapshot = await get(coinsRef);
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        setCoins(data.coins || 250000);
-        setEnergy(data.energy || 500);
-        setMaxEnergy(data.maxEnergy || 500);
-        setCoinsPerClick(data.coinsPerClick || 15);
-        setClickBoost(data.clickBoost || 3);
-        setMaxClickBoost(data.maxClickBoost || 3);
-        setIsClickBoostActive(data.isClickBoostActive || false);
-        setBoostDuration(data.boostDuration || 20);
-        setRestoreEnergy(data.restoreEnergy || 3);
-        setCoinsPerClickUpgradeLevel(data.coinsPerClickUpgradeLevel || 1);
-        setCoinsPerClickUpgradeCost(data.coinsPerClickUpgradeCost || 500);
-        setMaxEnergyUpgradeLevel(data.maxEnergyUpgradeLevel || 1);
-        setMaxEnergyUpgradeCost(data.maxEnergyUpgradeCost || 2500);
-        setIsBotPurchased(data.isBotPurchased || false);
-        setBotCost(data.botCost || 200000);
+      if (userUid) {
+        const userRef = ref(realtimeDb, `users/${userUid}`);
+        const snapshot = await get(userRef);
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          setCoins(data.coins || 250000);
+          setEnergy(data.energy || 500);
+          setMaxEnergy(data.maxEnergy || 500);
+          setCoinsPerClick(data.coinsPerClick || 15);
+          setClickBoost(data.clickBoost || 3);
+          setMaxClickBoost(data.maxClickBoost || 3);
+          setIsClickBoostActive(data.isClickBoostActive || false);
+          setBoostDuration(data.boostDuration || 20);
+          setRestoreEnergy(data.restoreEnergy || 3);
+          setCoinsPerClickUpgradeLevel(data.coinsPerClickUpgradeLevel || 1);
+          setCoinsPerClickUpgradeCost(data.coinsPerClickUpgradeCost || 500);
+          setMaxEnergyUpgradeLevel(data.maxEnergyUpgradeLevel || 1);
+          setMaxEnergyUpgradeCost(data.maxEnergyUpgradeCost || 2500);
+          setIsBotPurchased(data.isBotPurchased || false);
+          setBotCost(data.botCost || 200000);
+        }
       }
     } catch (error) {
       console.error("Error loading data from Realtime Database:", error);
@@ -113,8 +144,10 @@ function BeboClicker() {
   };
 
   useEffect(() => {
-    loadCoinsFromRealtimeDatabase();
-  }, []);
+    if (userUid) {
+      loadCoinsFromRealtimeDatabase();
+    }
+  }, [userUid]);
 
   const activateClickBoost = () => {
     if (!isClickBoostActive && clickBoost > 0) {
@@ -191,7 +224,6 @@ function BeboClicker() {
       setCoins(newCoins);
       saveCoinsToRealtimeDatabase(newCoins);
       setMaxEnergy((prevMaxEnergy) => prevMaxEnergy + 500);
-      setMaxEnergyUpgradeLevel((prevLevel) => prevLevel + 1);
       setMaxEnergyUpgradeCost((prevCost) => prevCost * 2);
     }
   };
@@ -207,7 +239,7 @@ function BeboClicker() {
 
   useEffect(() => {
     let botInterval;
-    if (isBotPurchased) {
+    if (userUid && isBotPurchased) {
       botInterval = setInterval(() => {
         setCoins((prevCoins) => {
           const newCoins = prevCoins + 4;
@@ -218,7 +250,7 @@ function BeboClicker() {
     }
 
     return () => clearInterval(botInterval);
-  }, [isBotPurchased]);
+  }, [userUid, isBotPurchased]);
 
   return (
     <div className={`app-container ${isBoostActive ? "boost-active" : ""}`}>
