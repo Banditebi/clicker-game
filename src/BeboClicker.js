@@ -1,8 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
-import { db } from "./firebase";
-import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getDatabase, ref, set as setRealtime, get } from "firebase/database";
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
+
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+const realtimeDb = getDatabase(app);
 
 function formatNumberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -26,16 +44,14 @@ function BeboClicker() {
   const [isBotPurchased, setIsBotPurchased] = useState(false);
   const [botCost, setBotCost] = useState(200000);
 
-  const initialCoinsPerClickRef = useRef(1); // Use ref to store the initial coins per click
+  const initialCoinsPerClickRef = useRef(1);
 
-  // Function to restore energy per second
   const restoreEnergyPerSecond = () => {
     if (energy < maxEnergy) {
       setEnergy((prevEnergy) => Math.min(prevEnergy + 1, maxEnergy));
     }
   };
 
-  // Set interval to restore energy every second
   useEffect(() => {
     const interval = setInterval(() => {
       restoreEnergyPerSecond();
@@ -44,44 +60,37 @@ function BeboClicker() {
     return () => clearInterval(interval);
   }, [energy, maxEnergy]);
 
-  // Function to save coins to Firestore
-  const saveCoinsToFirestore = async (newCoins) => {
+  const saveCoinsToRealtimeDatabase = async (newCoins) => {
     try {
-      const userDoc = doc(db, "users", "user1"); // Replace "user1" with your user's ID
-      await setDoc(
-        userDoc,
-        {
-          coins: newCoins,
-          energy,
-          maxEnergy,
-          coinsPerClick,
-          clickBoost,
-          maxClickBoost,
-          isClickBoostActive,
-          boostDuration,
-          restoreEnergy,
-          coinsPerClickUpgradeLevel,
-          coinsPerClickUpgradeCost,
-          maxEnergyUpgradeLevel,
-          maxEnergyUpgradeCost,
-          isBotPurchased,
-          botCost,
-        },
-        { merge: true }
-      );
+      const coinsRef = ref(realtimeDb, "users/user1");
+      await setRealtime(coinsRef, {
+        coins: newCoins,
+        energy,
+        maxEnergy,
+        coinsPerClick,
+        clickBoost,
+        maxClickBoost,
+        isClickBoostActive,
+        boostDuration,
+        restoreEnergy,
+        coinsPerClickUpgradeLevel,
+        coinsPerClickUpgradeCost,
+        maxEnergyUpgradeLevel,
+        maxEnergyUpgradeCost,
+        isBotPurchased,
+        botCost,
+      });
     } catch (error) {
-      console.error("Error saving data to Firestore:", error);
+      console.error("Error saving data to Realtime Database:", error);
     }
   };
 
-  // Function to load data from Firestore
-  const loadDataFromFirestore = async () => {
+  const loadCoinsFromRealtimeDatabase = async () => {
     try {
-      const userDoc = doc(db, "users", "user1");
-      const docSnapshot = await getDoc(userDoc);
-
-      if (docSnapshot.exists()) {
-        const data = docSnapshot.data();
+      const coinsRef = ref(realtimeDb, "users/user1");
+      const snapshot = await get(coinsRef);
+      if (snapshot.exists()) {
+        const data = snapshot.val();
         setCoins(data.coins || 250000);
         setEnergy(data.energy || 500);
         setMaxEnergy(data.maxEnergy || 500);
@@ -99,17 +108,17 @@ function BeboClicker() {
         setBotCost(data.botCost || 200000);
       }
     } catch (error) {
-      console.error("Error loading data from Firestore:", error);
+      console.error("Error loading data from Realtime Database:", error);
     }
   };
 
   useEffect(() => {
-    loadDataFromFirestore();
+    loadCoinsFromRealtimeDatabase();
   }, []);
 
   const activateClickBoost = () => {
     if (!isClickBoostActive && clickBoost > 0) {
-      initialCoinsPerClickRef.current = coinsPerClick; // Store initial coins per click
+      initialCoinsPerClickRef.current = coinsPerClick;
       const boostedCoinsPerClick = coinsPerClick * 5;
 
       setClickBoost((prevClickBoost) => prevClickBoost - 1);
@@ -118,12 +127,12 @@ function BeboClicker() {
       setIsBoostActive(false);
 
       setTimeout(() => {
-        setCoinsPerClick(initialCoinsPerClickRef.current); // Restore initial coins per click
+        setCoinsPerClick(initialCoinsPerClickRef.current);
         setIsClickBoostActive(false);
       }, boostDuration * 1000);
 
       setCoinsPerClick(boostedCoinsPerClick);
-      saveCoinsToFirestore(coins);
+      saveCoinsToRealtimeDatabase(coins);
     }
   };
 
@@ -134,7 +143,7 @@ function BeboClicker() {
         : coinsPerClick;
       const newCoins = coins + currentCoinsPerClick;
       setCoins(newCoins);
-      saveCoinsToFirestore(newCoins); // Save coins to Firestore
+      saveCoinsToRealtimeDatabase(newCoins);
       if (!isClickBoostActive) {
         setEnergy((prevEnergy) => prevEnergy - coinsPerClick);
       }
@@ -169,7 +178,7 @@ function BeboClicker() {
     if (coins >= coinsPerClickUpgradeCost) {
       const newCoins = coins - coinsPerClickUpgradeCost;
       setCoins(newCoins);
-      saveCoinsToFirestore(newCoins); // Save coins to Firestore
+      saveCoinsToRealtimeDatabase(newCoins);
       setCoinsPerClick((prevCoinsPerClick) => prevCoinsPerClick + 1);
       setCoinsPerClickUpgradeLevel((prevLevel) => prevLevel + 1);
       setCoinsPerClickUpgradeCost((prevCost) => prevCost * 2);
@@ -180,8 +189,8 @@ function BeboClicker() {
     if (coins >= maxEnergyUpgradeCost) {
       const newCoins = coins - maxEnergyUpgradeCost;
       setCoins(newCoins);
-      saveCoinsToFirestore(newCoins); // Save coins to Firestore
-      setMaxEnergy((prevMaxEnergy) => prevMaxEnergy + 500); // Increase max energy by 500
+      saveCoinsToRealtimeDatabase(newCoins);
+      setMaxEnergy((prevMaxEnergy) => prevMaxEnergy + 500);
       setMaxEnergyUpgradeLevel((prevLevel) => prevLevel + 1);
       setMaxEnergyUpgradeCost((prevCost) => prevCost * 2);
     }
@@ -191,19 +200,18 @@ function BeboClicker() {
     if (!isBotPurchased && coins >= botCost) {
       const newCoins = coins - botCost;
       setCoins(newCoins);
-      saveCoinsToFirestore(newCoins); // Save coins to Firestore
+      saveCoinsToRealtimeDatabase(newCoins);
       setIsBotPurchased(true);
     }
   };
 
-  // Effect to add 4 coins per second when bot is purchased
   useEffect(() => {
     let botInterval;
     if (isBotPurchased) {
       botInterval = setInterval(() => {
         setCoins((prevCoins) => {
           const newCoins = prevCoins + 4;
-          saveCoinsToFirestore(newCoins); // Save coins to Firestore
+          saveCoinsToRealtimeDatabase(newCoins);
           return newCoins;
         });
       }, 1000);

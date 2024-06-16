@@ -19,5 +19,3 @@ yarn-debug.log*
 yarn-error.log*       
 .idea                 
 
-# И добавленный вами пункт, который предотвращает загрузку конфиденциальных данных.
-firebaseConfig.json   
