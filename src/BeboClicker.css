@@ -186,6 +186,18 @@
     padding: 0;
   }
 
+  @keyframes click-animation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
   .black-background {
     position: fixed;
     top: 0;
@@ -202,13 +214,17 @@
   }
 
   .clicker-image {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -45%);
-    width: 260px; /* Уменьшите или увеличьте в зависимости от требований */
-    height: auto; /* Автоматическая высота, чтобы сохранить пропорции */
-    z-index: 2;
+    position: fixed;
+    top: 30%; /* Вертикальное центрирование */
+    left: 15%; /* Горизонтальное центрирование */
+    width: 270px; /* Укажите желаемую ширину */
+    height: auto; /* Поддержание пропорций */
+    transform: scale(1); /* Начальный масштаб */
+    transition: transform 0.2s ease; /* Анимация для эффекта клика */
+  }
+
+  .clicker-image.clicked {
+    animation: click-animation 0.2s ease;
   }
 
   .coins-display {

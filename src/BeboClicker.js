@@ -1,26 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
-import { getDatabase, ref, set as setRealtime, get } from "firebase/database";
+import { ref, set as setRealtime, get } from "firebase/database";
+import { auth, realtimeDb } from "./App"; // Импортируем объекты auth и realtimeDb из App.js
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
-
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
-};
-
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getFirestore(app);
-const realtimeDb = getDatabase(app);
 
 function formatNumberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -32,7 +14,7 @@ function BeboClicker() {
   const [isBoostActive, setIsBoostActive] = useState(false);
   const [energy, setEnergy] = useState(500);
   const [maxEnergy, setMaxEnergy] = useState(500);
-  const [coinsPerClick, setCoinsPerClick] = useState(15);
+  const [coinsPerClick, setCoinsPerClick] = useState(1);
   const [clickBoost, setClickBoost] = useState(3);
   const [maxClickBoost, setMaxClickBoost] = useState(3);
   const [isClickBoostActive, setIsClickBoostActive] = useState(false);
@@ -49,22 +31,12 @@ function BeboClicker() {
 
   // Функция для получения текущего UID пользователя
   const getCurrentUserUid = () => {
-    // Здесь должна быть логика для получения UID пользователя
-    // Это зависит от вашей конфигурации Firebase Authentication
-    // Я приведу пример, как это может выглядеть
-    // В реальном приложении это будет зависеть от вашего способа аутентификации пользователей
-    // Например, через Firebase Authentication:
-
-    // const user = auth.currentUser;
-    // if (user) {
-    //   return user.uid;
-    // } else {
-    //   // Handle error, user is not signed in
-    //   return null;
-    // }
-
-    // В данном примере, я буду использовать фиктивное значение
-    return "user1"; // Здесь должен быть реальный UID пользователя
+    const user = auth.currentUser;
+    if (user) {
+      return user.uid;
+    } else {
+      return null;
+    }
   };
 
   useEffect(() => {
@@ -75,7 +47,7 @@ function BeboClicker() {
 
   const restoreEnergyPerSecond = () => {
     if (energy < maxEnergy) {
-      setEnergy((prevEnergy) => Math.min(prevEnergy + 1, maxEnergy));
+      setEnergy((prevEnergy) => Math.min(prevEnergy + 100, maxEnergy));
     }
   };
 
@@ -272,6 +244,11 @@ function BeboClicker() {
             draggable="false"
             onTouchStart={(event) => {
               event.preventDefault();
+              if (energy >= coinsPerClick || isClickBoostActive) {
+                handleButtonClick();
+              }
+            }}
+            onClick={() => {
               if (energy >= coinsPerClick || isClickBoostActive) {
                 handleButtonClick();
               }
