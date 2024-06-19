@@ -280,6 +280,7 @@
     display: flex;
     justify-content: center; /* Центрирование по горизонтали */
     align-items: center; /* Центрирование по вертикали */
+    z-index: 2;
   }
 
   .clicker-image {
@@ -287,6 +288,7 @@
     height: auto; /* Поддержание пропорций */
     transform: scale(1); /* Начальный масштаб */
     transition: transform 0.2s ease; /* Анимация для эффекта клика */
+    z-index: 2;
   }
 
   .clicker-image.clicked {

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
-import beboImage from "./bebo-image.png"; // Импортируем новое изображение
+import beboImage from "./bebo-image.png";
 import energyImage from "./energy-image.png";
+import BeboDrop from "./bebodrop";
 
 function formatNumberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -26,6 +27,7 @@ function BeboClicker() {
   const [isBotPurchased, setIsBotPurchased] = useState(false);
   const [botCost, setBotCost] = useState(200000);
   const [isClicked, setIsClicked] = useState(false);
+  const [beboDrops, setBeboDrops] = useState([]);
 
   const initialCoinsPerClickRef = useRef(1);
 
@@ -69,6 +71,16 @@ function BeboClicker() {
         setEnergy((prevEnergy) => prevEnergy - coinsPerClick);
       }
       setIsClicked(true);
+
+      // Генерация случайных координат
+      const randomLeft = Math.random() * 90 + "vw"; // случайное значение от 0 до 90% ширины экрана
+      const randomTop = Math.random() * 90 + "vh"; // случайное значение от 0 до 90% высоты экрана
+
+      setBeboDrops((prevDrops) => [
+        ...prevDrops,
+        { id: Date.now(), key: Date.now(), left: randomLeft, top: randomTop },
+      ]); // Добавляем новый падающий элемент
+
       setTimeout(() => setIsClicked(false), 200);
     }
   };
@@ -135,18 +147,20 @@ function BeboClicker() {
     return () => clearInterval(botInterval);
   }, [isBotPurchased]);
 
+  const handleBeboDropEnd = (id) => {
+    setBeboDrops((prevDrops) => prevDrops.filter((drop) => drop.id !== id));
+  };
+
   return (
     <div className={`app-container ${isBoostActive ? "boost-active" : ""}`}>
       <div className="black-background"></div>
       <div>
         <div className={`coins-display ${isBoostActive ? "hidden" : ""}`}>
           <img src={beboImage} alt="Bebo" className="bebo-image" />{" "}
-          {/* Изображение перемещено сюда */}
           {formatNumberWithCommas(coins)}
         </div>
         <div className={`energy-display ${isBoostActive ? "hidden" : ""}`}>
           <img src={energyImage} alt="Energy" className="energy-image" />{" "}
-          {/* Добавленное изображение */}
           {`${energy} / ${maxEnergy}`}
         </div>
         {!isBoostActive && <hr className="divider" />}
@@ -269,6 +283,15 @@ function BeboClicker() {
           </div>
         )}
       </div>
+      {beboDrops.map((drop) => (
+        <BeboDrop
+          key={drop.key}
+          id={drop.id}
+          left={drop.left}
+          top={drop.top}
+          onAnimationEnd={handleBeboDropEnd}
+        />
+      ))}
     </div>
   );
 }

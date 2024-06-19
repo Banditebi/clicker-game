@@ -1,0 +1,25 @@
+.bebo-drop {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: drop 2s forwards;
+  pointer-events: none;
+  z-index: 0; /* Обеспечивает нахождение за другими элементами */
+}
+
+.bebo-drop-image {
+  width: 50px; /* Установите подходящий размер изображения */
+  height: 50px; /* Установите подходящий размер изображения */
+}
+
+@keyframes drop {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 90vh; /* Падает до 90% высоты экрана */
+    opacity: 0;
+  }
+}
