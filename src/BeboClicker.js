@@ -13,7 +13,7 @@ function BeboClicker() {
   const [isBoostActive, setIsBoostActive] = useState(false);
   const [energy, setEnergy] = useState(500);
   const [maxEnergy, setMaxEnergy] = useState(500);
-  const [coinsPerClick, setCoinsPerClick] = useState(150);
+  const [coinsPerClick, setCoinsPerClick] = useState(1);
   const [clickBoost, setClickBoost] = useState(3);
   const [maxClickBoost, setMaxClickBoost] = useState(3);
   const [isClickBoostActive, setIsClickBoostActive] = useState(false);
@@ -41,30 +41,30 @@ function BeboClicker() {
 
   const activateClickBoost = () => {
     if (!isClickBoostActive && clickBoost > 0) {
+      console.log("Activating click boost");
       initialCoinsPerClickRef.current = coinsPerClick;
       const boostedCoinsPerClick = coinsPerClick * 5;
 
       setClickBoost((prevClickBoost) => prevClickBoost - 1);
-      setMaxClickBoost((prevMaxClickBoost) => prevMaxClickBoost - 1);
       setIsClickBoostActive(true);
-      setIsBoostActive(false);
+      setCoinsPerClick(boostedCoinsPerClick);
 
       setTimeout(() => {
+        console.log("Deactivating click boost");
         setCoinsPerClick(initialCoinsPerClickRef.current);
         setIsClickBoostActive(false);
       }, boostDuration * 1000);
-
-      setCoinsPerClick(boostedCoinsPerClick);
     }
   };
 
   const handleButtonClick = () => {
     if (energy >= coinsPerClick || isClickBoostActive) {
       const currentCoinsPerClick = isClickBoostActive
-        ? coinsPerClick * 5
+        ? coinsPerClick
         : coinsPerClick;
       const newCoins = coins + currentCoinsPerClick;
       setCoins(newCoins);
+
       if (!isClickBoostActive) {
         setEnergy((prevEnergy) => prevEnergy - coinsPerClick);
       }

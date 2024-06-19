@@ -173,6 +173,14 @@
 /* chemi divice chemikai Devices: iPhone 5/SE, Kindle Fire */
 @media only screen and (min-aspect-ratio: 9 / 16) and (max-aspect-ratio: 4 / 5) {
   /* BeboClicker.css */
+  /* src/index.css */
+  /* src/fonts/fonts.css */
+  @font-face {
+    font-family: "Tiny5";
+    src: url(/public/fonts/AbrilFatface-Regular.ttf) format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
 
   /* Общие стили для приложения */
 
@@ -311,6 +319,7 @@
     z-index: 2; /* Задать z-index выше черного фона */
     display: flex;
     align-items: center; /* Чтобы изображение и текст выровнялись по вертикали */
+    font-family: Tiny5;
   }
 
   .bebo-image {
@@ -333,6 +342,7 @@
     z-index: 2; /* Задать z-index выше черного фона */
     display: flex;
     align-items: center; /* Чтобы изображение и текст выровнялись по вертикали */
+    font-family: Tiny5;
   }
 
   .energy-image {
@@ -395,6 +405,7 @@
     bottom: 27px;
     text-align: center;
     user-select: none;
+    font-family: Tiny5;
   }
 
   .missions-button {
@@ -414,6 +425,7 @@
     bottom: 27px;
     text-align: center;
     user-select: none;
+    font-family: Tiny5;
   }
 
   .referral-button {
@@ -433,6 +445,7 @@
     bottom: 27px;
     text-align: center;
     user-select: none;
+    font-family: Tiny5;
   }
 
   .button img {
