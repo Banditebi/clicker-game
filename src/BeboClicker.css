@@ -322,12 +322,23 @@
 
   .energy-display {
     position: fixed;
-    bottom: 90px;
-    left: 50%;
+    text-align: center;
+    bottom: 70px; /* Пример позиции от верхнего края страницы */
+    left: 50%; /* Центрируем по горизонтали */
     transform: translateX(-50%);
-    font-size: 24px;
+    padding: 10px;
     color: white;
+    font-size: 24px; /* Пример размера шрифта */
+    border-radius: 5px;
     z-index: 2; /* Задать z-index выше черного фона */
+    display: flex;
+    align-items: center; /* Чтобы изображение и текст выровнялись по вертикали */
+  }
+
+  .energy-image {
+    width: 35px; /* Пример ширины изображения, установите желаемое значение */
+    height: auto; /* Поддержание пропорций */
+    margin-left: -35px; /* Пример отступа между изображением и текстом, настройте по вашему усмотрению */
   }
 
   .divider {

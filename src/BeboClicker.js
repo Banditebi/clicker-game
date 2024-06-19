@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
 import beboImage from "./bebo-image.png"; // Импортируем новое изображение
+import energyImage from "./energy-image.png";
 
 function formatNumberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -144,6 +145,8 @@ function BeboClicker() {
           {formatNumberWithCommas(coins)}
         </div>
         <div className={`energy-display ${isBoostActive ? "hidden" : ""}`}>
+          <img src={energyImage} alt="Energy" className="energy-image" />{" "}
+          {/* Добавленное изображение */}
           {`${energy} / ${maxEnergy}`}
         </div>
         {!isBoostActive && <hr className="divider" />}
@@ -172,9 +175,7 @@ function BeboClicker() {
       )}
 
       <div className="text-container">
-        <p>
-          Здесь идет основной текст, в котором вы хотите разместить изображение.
-        </p>
+        <p></p>
       </div>
 
       <div className="bottom-buttons">
