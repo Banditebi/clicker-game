@@ -212,7 +212,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(125deg, #000, rgba(255, 179, 0, 0.619));
+    background: linear-gradient(125deg, #000, rgba(6, 134, 255, 0.619));
     background-size: 200% 200%;
     animation: gradientAnimation 10s ease infinite;
     z-index: 0;
@@ -322,14 +322,13 @@
     display: flex;
     align-items: center; /* Чтобы изображение и текст выровнялись по вертикали */
     font-family: Tiny5;
-    background-color: #00000079;
   }
 
   .bebo-image {
-    width: 40px; /* Пример ширины изображения, установите желаемое значение */
-    height: auto;
+    width: 50px; /* Пример ширины изображения, установите желаемое значение */
+    height: 50px;
     margin-top: 5px; /* Поддержание пропорций */
-    margin-right: 10px; /* Пример отступа между изображением и текстом, настройте по вашему усмотрению */
+    margin-right: -5px; /* Пример отступа между изображением и текстом, настройте по вашему усмотрению */
   }
 
   .energy-display {

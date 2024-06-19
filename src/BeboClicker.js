@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./BeboClicker.css";
+import beboguy from "./beboguy.png";
+import beboguy1 from "./beboguy1.png";
+import beboguy2 from "./beboguy2.png";
 import clickerImage from "./clicker-image.png";
 import beboImage from "./bebo-image.png";
 import energyImage from "./energy-image.png";
@@ -10,7 +13,7 @@ function formatNumberWithCommas(number) {
 }
 
 function BeboClicker() {
-  const [coins, setCoins] = useState(2500);
+  const [coins, setCoins] = useState(25000000000);
   const [isBoostActive, setIsBoostActive] = useState(false);
   const [energy, setEnergy] = useState(500);
   const [maxEnergy, setMaxEnergy] = useState(500);
@@ -156,7 +159,7 @@ function BeboClicker() {
       <div className="black-background"></div>
       <div>
         <div className={`coins-display ${isBoostActive ? "hidden" : ""}`}>
-          <img src={beboImage} alt="Bebo" className="bebo-image" />{" "}
+          <img src={beboguy1} alt="Bebo" className="bebo-image" />{" "}
           {formatNumberWithCommas(coins)}
         </div>
         <div className={`energy-display ${isBoostActive ? "hidden" : ""}`}>
@@ -167,7 +170,7 @@ function BeboClicker() {
 
         <div className={`clicker-container ${isBoostActive ? "hidden" : ""}`}>
           <img
-            src={clickerImage}
+            src={beboguy}
             className={`clicker-image ${isClicked ? "clicked" : ""}`}
             alt="Clicker"
             draggable="false"
