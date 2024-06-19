@@ -8,11 +8,11 @@ function formatNumberWithCommas(number) {
 }
 
 function BeboClicker() {
-  const [coins, setCoins] = useState(250000);
+  const [coins, setCoins] = useState(2500);
   const [isBoostActive, setIsBoostActive] = useState(false);
   const [energy, setEnergy] = useState(500);
   const [maxEnergy, setMaxEnergy] = useState(500);
-  const [coinsPerClick, setCoinsPerClick] = useState(15);
+  const [coinsPerClick, setCoinsPerClick] = useState(150);
   const [clickBoost, setClickBoost] = useState(3);
   const [maxClickBoost, setMaxClickBoost] = useState(3);
   const [isClickBoostActive, setIsClickBoostActive] = useState(false);
@@ -31,7 +31,7 @@ function BeboClicker() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (energy < maxEnergy) {
-        setEnergy((prevEnergy) => Math.min(prevEnergy + 50, maxEnergy));
+        setEnergy((prevEnergy) => Math.min(prevEnergy + 500, maxEnergy));
       }
     }, 1000);
 
@@ -138,15 +138,16 @@ function BeboClicker() {
     <div className={`app-container ${isBoostActive ? "boost-active" : ""}`}>
       <div className="black-background"></div>
       <div>
-        <img src={beboImage} alt="Bebo" className="bebo-image" />{" "}
-        {/* Добавленное изображение */}
         <div className={`coins-display ${isBoostActive ? "hidden" : ""}`}>
+          <img src={beboImage} alt="Bebo" className="bebo-image" />{" "}
+          {/* Изображение перемещено сюда */}
           {formatNumberWithCommas(coins)}
         </div>
         <div className={`energy-display ${isBoostActive ? "hidden" : ""}`}>
           {`${energy} / ${maxEnergy}`}
         </div>
         {!isBoostActive && <hr className="divider" />}
+
         <div className={`clicker-container ${isBoostActive ? "hidden" : ""}`}>
           <img
             src={clickerImage}
@@ -169,6 +170,12 @@ function BeboClicker() {
           </button>
         </div>
       )}
+
+      <div className="text-container">
+        <p>
+          Здесь идет основной текст, в котором вы хотите разместить изображение.
+        </p>
+      </div>
 
       <div className="bottom-buttons">
         <button
