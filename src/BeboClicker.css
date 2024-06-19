@@ -322,6 +322,7 @@
     display: flex;
     align-items: center; /* Чтобы изображение и текст выровнялись по вертикали */
     font-family: Tiny5;
+    background-color: #00000079;
   }
 
   .bebo-image {
@@ -334,7 +335,7 @@
   .energy-display {
     position: fixed;
     text-align: center;
-    bottom: 70px; /* Пример позиции от верхнего края страницы */
+    bottom: 85px; /* Пример позиции от верхнего края страницы */
     left: 50%; /* Центрируем по горизонтали */
     transform: translateX(-50%);
     padding: 10px;
@@ -358,7 +359,7 @@
     border: none;
     border-top: 1px solid white; /* Параметры границы */
     position: fixed; /* Фиксированное позиционирование */
-    bottom: 70px; /* Расположение снизу от нижних кнопок */
+    bottom: 85px; /* Расположение снизу от нижних кнопок */
     left: 0; /* Выравнивание по левому краю */
     z-index: 2; /* Задать z-index выше черного фона */
   }
@@ -396,6 +397,7 @@
     background-size: cover; /* Подходящий размер для изображения */
     border: none; /* Удалить рамку */
     outline: none; /* Удалить контур */
+    background-color: #00000079;
   }
 
   .boosttextbtn {
@@ -404,7 +406,7 @@
     position: relative;
     font-size: 0.9em;
     z-index: 3;
-    bottom: 27px;
+    bottom: 40px;
     text-align: center;
     user-select: none;
     font-family: Tiny5;
@@ -416,6 +418,7 @@
     background-size: cover; /* Подходящий размер для изображения */
     border: none; /* Удалить рамку */
     outline: none; /* Удалить контур */
+    background-color: #00000079;
   }
 
   .missiontextbtn {
@@ -424,7 +427,7 @@
     position: relative;
     font-size: 0.9em;
     z-index: 3;
-    bottom: 27px;
+    bottom: 40px;
     text-align: center;
     user-select: none;
     font-family: Tiny5;
@@ -436,15 +439,16 @@
     background-size: cover; /* Подходящий размер для изображения */
     border: none; /* Удалить рамку */
     outline: none; /* Удалить контур */
+    background-color: #00000079;
   }
 
   .referaltextbtn {
     color: white;
-    right: 0px;
+    right: 12px;
     position: relative;
     font-size: 0.9em;
     z-index: 3;
-    bottom: 27px;
+    bottom: 40px;
     text-align: center;
     user-select: none;
     font-family: Tiny5;

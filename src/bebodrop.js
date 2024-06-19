@@ -12,7 +12,7 @@ const BeboDrop = ({ id, left, top, onAnimationEnd }) => {
   }, [id, onAnimationEnd]);
 
   return (
-    <div className="bebo-drop" style={{ left, top }}>
+    <div className="bebo-drop" style={{ left, top: "0px" }}>
       <img src={beboDropImage} alt="Bebo Drop" className="bebo-drop-image" />
     </div>
   );

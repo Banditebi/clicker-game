@@ -1,9 +1,9 @@
 .bebo-drop {
   position: absolute;
-  top: 0;
+  top: -100px;
   left: 50%;
   transform: translateX(-50%);
-  animation: drop 2s forwards;
+  animation: drop 1.5s forwards;
   pointer-events: none;
   z-index: 0; /* Обеспечивает нахождение за другими элементами */
 }
@@ -16,6 +16,9 @@
 @keyframes drop {
   0% {
     top: 0;
+    opacity: 2;
+  }
+  50% {
     opacity: 1;
   }
   100% {

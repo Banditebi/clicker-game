@@ -198,19 +198,19 @@ function BeboClicker() {
           onClick={handleBoostClick}
           disabled={isBoostActive}
         >
-          <span className="boosttextbtn">Ускорение</span>
+          <span className="boosttextbtn">BOOST</span>
         </button>
         <button
           className="button missions-button"
           onClick={handleMissionsClick}
         >
-          <span className="missiontextbtn">Миссии</span>
+          <span className="missiontextbtn">TASKS</span>
         </button>
         <button
           className="button referral-button"
           onClick={handleReferralClick}
         >
-          <span className="referaltextbtn">Рефералы</span>
+          <span className="referaltextbtn">REFERRALS</span>
         </button>
         {isBoostActive && !isClickBoostActive && (
           <button
