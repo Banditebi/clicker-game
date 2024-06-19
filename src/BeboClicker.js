@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ref, set as setRealtime, get } from "firebase/database";
-import { auth, realtimeDb } from "./App"; // Импортируем объекты auth и realtimeDb из App.js
 import "./BeboClicker.css";
 import clickerImage from "./clicker-image.png";
+import beboImage from "./bebo-image.png"; // Импортируем новое изображение
 
 function formatNumberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function BeboClicker() {
-  const [userUid, setUserUid] = useState(null); // State для UID пользователя
   const [coins, setCoins] = useState(250000);
   const [isBoostActive, setIsBoostActive] = useState(false);
   const [energy, setEnergy] = useState(500);
   const [maxEnergy, setMaxEnergy] = useState(500);
-  const [coinsPerClick, setCoinsPerClick] = useState(1);
+  const [coinsPerClick, setCoinsPerClick] = useState(15);
   const [clickBoost, setClickBoost] = useState(3);
   const [maxClickBoost, setMaxClickBoost] = useState(3);
   const [isClickBoostActive, setIsClickBoostActive] = useState(false);
@@ -26,100 +24,19 @@ function BeboClicker() {
   const [maxEnergyUpgradeCost, setMaxEnergyUpgradeCost] = useState(2500);
   const [isBotPurchased, setIsBotPurchased] = useState(false);
   const [botCost, setBotCost] = useState(200000);
+  const [isClicked, setIsClicked] = useState(false);
 
   const initialCoinsPerClickRef = useRef(1);
 
-  // Функция для получения текущего UID пользователя
-  const getCurrentUserUid = () => {
-    const user = auth.currentUser;
-    if (user) {
-      return user.uid;
-    } else {
-      return null;
-    }
-  };
-
-  useEffect(() => {
-    // Получаем UID пользователя при монтировании компонента
-    const uid = getCurrentUserUid();
-    setUserUid(uid);
-  }, []);
-
-  const restoreEnergyPerSecond = () => {
-    if (energy < maxEnergy) {
-      setEnergy((prevEnergy) => Math.min(prevEnergy + 100, maxEnergy));
-    }
-  };
-
   useEffect(() => {
     const interval = setInterval(() => {
-      restoreEnergyPerSecond();
+      if (energy < maxEnergy) {
+        setEnergy((prevEnergy) => Math.min(prevEnergy + 50, maxEnergy));
+      }
     }, 1000);
 
     return () => clearInterval(interval);
   }, [energy, maxEnergy]);
-
-  const saveCoinsToRealtimeDatabase = async (newCoins) => {
-    try {
-      if (userUid) {
-        const userRef = ref(realtimeDb, `users/${userUid}`);
-        await setRealtime(userRef, {
-          coins: newCoins,
-          energy,
-          maxEnergy,
-          coinsPerClick,
-          clickBoost,
-          maxClickBoost,
-          isClickBoostActive,
-          boostDuration,
-          restoreEnergy,
-          coinsPerClickUpgradeLevel,
-          coinsPerClickUpgradeCost,
-          maxEnergyUpgradeLevel,
-          maxEnergyUpgradeCost,
-          isBotPurchased,
-          botCost,
-        });
-      }
-    } catch (error) {
-      console.error("Error saving data to Realtime Database:", error);
-    }
-  };
-
-  const loadCoinsFromRealtimeDatabase = async () => {
-    try {
-      if (userUid) {
-        const userRef = ref(realtimeDb, `users/${userUid}`);
-        const snapshot = await get(userRef);
-        if (snapshot.exists()) {
-          const data = snapshot.val();
-          setCoins(data.coins || 250000);
-          setEnergy(data.energy || 500);
-          setMaxEnergy(data.maxEnergy || 500);
-          setCoinsPerClick(data.coinsPerClick || 15);
-          setClickBoost(data.clickBoost || 3);
-          setMaxClickBoost(data.maxClickBoost || 3);
-          setIsClickBoostActive(data.isClickBoostActive || false);
-          setBoostDuration(data.boostDuration || 20);
-          setRestoreEnergy(data.restoreEnergy || 3);
-          setCoinsPerClickUpgradeLevel(data.coinsPerClickUpgradeLevel || 1);
-          setCoinsPerClickUpgradeCost(data.coinsPerClickUpgradeCost || 500);
-          setMaxEnergyUpgradeLevel(data.maxEnergyUpgradeLevel || 1);
-          setMaxEnergyUpgradeCost(data.maxEnergyUpgradeCost || 2500);
-          setIsBotPurchased(data.isBotPurchased || false);
-          setBotCost(data.botCost || 200000);
-        }
-      }
-    } catch (error) {
-      console.error("Error loading data from Realtime Database:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (userUid) {
-      loadCoinsFromRealtimeDatabase();
-    }
-  }, [userUid]);
 
   const activateClickBoost = () => {
     if (!isClickBoostActive && clickBoost > 0) {
@@ -137,7 +54,6 @@ function BeboClicker() {
       }, boostDuration * 1000);
 
       setCoinsPerClick(boostedCoinsPerClick);
-      saveCoinsToRealtimeDatabase(coins);
     }
   };
 
@@ -148,10 +64,11 @@ function BeboClicker() {
         : coinsPerClick;
       const newCoins = coins + currentCoinsPerClick;
       setCoins(newCoins);
-      saveCoinsToRealtimeDatabase(newCoins);
       if (!isClickBoostActive) {
         setEnergy((prevEnergy) => prevEnergy - coinsPerClick);
       }
+      setIsClicked(true);
+      setTimeout(() => setIsClicked(false), 200);
     }
   };
 
@@ -183,7 +100,6 @@ function BeboClicker() {
     if (coins >= coinsPerClickUpgradeCost) {
       const newCoins = coins - coinsPerClickUpgradeCost;
       setCoins(newCoins);
-      saveCoinsToRealtimeDatabase(newCoins);
       setCoinsPerClick((prevCoinsPerClick) => prevCoinsPerClick + 1);
       setCoinsPerClickUpgradeLevel((prevLevel) => prevLevel + 1);
       setCoinsPerClickUpgradeCost((prevCost) => prevCost * 2);
@@ -194,7 +110,6 @@ function BeboClicker() {
     if (coins >= maxEnergyUpgradeCost) {
       const newCoins = coins - maxEnergyUpgradeCost;
       setCoins(newCoins);
-      saveCoinsToRealtimeDatabase(newCoins);
       setMaxEnergy((prevMaxEnergy) => prevMaxEnergy + 500);
       setMaxEnergyUpgradeCost((prevCost) => prevCost * 2);
     }
@@ -204,30 +119,27 @@ function BeboClicker() {
     if (!isBotPurchased && coins >= botCost) {
       const newCoins = coins - botCost;
       setCoins(newCoins);
-      saveCoinsToRealtimeDatabase(newCoins);
       setIsBotPurchased(true);
     }
   };
 
   useEffect(() => {
     let botInterval;
-    if (userUid && isBotPurchased) {
+    if (isBotPurchased) {
       botInterval = setInterval(() => {
-        setCoins((prevCoins) => {
-          const newCoins = prevCoins + 4;
-          saveCoinsToRealtimeDatabase(newCoins);
-          return newCoins;
-        });
+        setCoins((prevCoins) => prevCoins + 4);
       }, 1000);
     }
 
     return () => clearInterval(botInterval);
-  }, [userUid, isBotPurchased]);
+  }, [isBotPurchased]);
 
   return (
     <div className={`app-container ${isBoostActive ? "boost-active" : ""}`}>
       <div className="black-background"></div>
       <div>
+        <img src={beboImage} alt="Bebo" className="bebo-image" />{" "}
+        {/* Добавленное изображение */}
         <div className={`coins-display ${isBoostActive ? "hidden" : ""}`}>
           {formatNumberWithCommas(coins)}
         </div>
@@ -235,20 +147,14 @@ function BeboClicker() {
           {`${energy} / ${maxEnergy}`}
         </div>
         {!isBoostActive && <hr className="divider" />}
-
         <div className={`clicker-container ${isBoostActive ? "hidden" : ""}`}>
           <img
             src={clickerImage}
-            className="clicker-image"
+            className={`clicker-image ${isClicked ? "clicked" : ""}`}
             alt="Clicker"
             draggable="false"
             onTouchStart={(event) => {
               event.preventDefault();
-              if (energy >= coinsPerClick || isClickBoostActive) {
-                handleButtonClick();
-              }
-            }}
-            onClick={() => {
               if (energy >= coinsPerClick || isClickBoostActive) {
                 handleButtonClick();
               }
@@ -331,20 +237,28 @@ function BeboClicker() {
             onClick={handleRestoreEnergy}
             disabled={restoreEnergy === 0}
           >
-            <span className="restoreenergytextbtn">Топливный бак: </span>
-            <span className="restoreenergytextbtn">{restoreEnergy}/3</span>
+            <span className="restore-energy-text">
+              Восстановить энергию ({restoreEnergy}/3)
+            </span>
           </button>
         )}
-        {isBoostActive && !isBotPurchased && (
+        {isBoostActive && (
           <button
             className="button buy-bot-button"
             onClick={handleBuyBot}
-            disabled={coins < botCost}
+            disabled={isBotPurchased || coins < botCost}
           >
-            <span className="buybottextbtn">Купить бота</span>
-            <br />
-            <span>Стоимость: {botCost}</span>
+            <span className="buy-bot-text">
+              {isBotPurchased
+                ? "Бот куплен"
+                : `Купить бота (${formatNumberWithCommas(botCost)} монет)`}
+            </span>
           </button>
+        )}
+        {isBoostActive && isBotPurchased && (
+          <div className="bot-status">
+            <span className="bot-status-text">Бот куплен и активен</span>
+          </div>
         )}
       </div>
     </div>
