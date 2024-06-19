@@ -284,7 +284,7 @@
   }
 
   .clicker-image {
-    width: 270px; /* Укажите желаемую ширину */
+    width: 300px; /* Укажите желаемую ширину */
     height: auto; /* Поддержание пропорций */
     transform: scale(1); /* Начальный масштаб */
     transition: transform 0.2s ease; /* Анимация для эффекта клика */
@@ -322,6 +322,7 @@
     display: flex;
     align-items: center; /* Чтобы изображение и текст выровнялись по вертикали */
     font-family: Tiny5;
+    text-shadow: 10px 5px 1px rgba(0, 0, 0, 0.5);
   }
 
   .bebo-image {
@@ -345,6 +346,7 @@
     display: flex;
     align-items: center; /* Чтобы изображение и текст выровнялись по вертикали */
     font-family: Tiny5;
+    text-shadow: 8px 4px 1px rgba(0, 0, 0, 0.5);
   }
 
   .energy-image {
@@ -409,6 +411,7 @@
     text-align: center;
     user-select: none;
     font-family: Tiny5;
+    text-shadow: 8px 4px 1px rgba(0, 0, 0, 0.5);
   }
 
   .missions-button {
@@ -430,6 +433,7 @@
     text-align: center;
     user-select: none;
     font-family: Tiny5;
+    text-shadow: 8px 4px 1px rgba(0, 0, 0, 0.5);
   }
 
   .referral-button {
@@ -451,6 +455,7 @@
     text-align: center;
     user-select: none;
     font-family: Tiny5;
+    text-shadow: 8px 2px 1px rgba(0, 0, 0, 0.5);
   }
 
   .button img {
